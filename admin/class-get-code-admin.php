@@ -54,8 +54,6 @@ class Get_Code_Admin
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
-		$this->admin_init();
-
 		$this->init_elementor_widgets();
 
 	}
@@ -140,8 +138,7 @@ class Get_Code_Admin
 
 			require_once( __DIR__ . '/partials/get-code-admin-elementor-widget.php' );
 		
-			$widgets_manager->register( new Get_Code_Elementor_Widget() );
-		
+			$widgets_manager->register( new GetCode\Widgets\Get_Code_Elementor_Widget() );		
 		}
 
 		add_action( 'elementor/widgets/register', 'register_get_code_widget' );
