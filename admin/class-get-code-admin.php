@@ -53,6 +53,8 @@ class Get_Code_Admin
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+
+		$this->add_admin_menu();
 	}
 
 	/**
