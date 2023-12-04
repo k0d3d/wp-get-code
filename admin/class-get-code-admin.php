@@ -115,7 +115,8 @@ class Get_Code_Admin
 			esc_html__('Get Code', 'get-code'),
 			'manage_options',
 			$this->plugin_name,
-			array($this, 'add_setting_root_div')
+			array($this, 'add_setting_root_div'),
+			file_get_contents('./img/icon')
 		);
 	}
 
