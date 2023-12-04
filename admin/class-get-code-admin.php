@@ -116,7 +116,7 @@ class Get_Code_Admin
 			'manage_options',
 			$this->plugin_name,
 			array($this, 'add_setting_root_div'),
-			file_get_contents( GET_CODE_APP_PATH . 'admin/img/logo.svg')
+			plugins_url( 'get-code-app/admin/img/favicon-16x16.png')
 		);
 	}
 
