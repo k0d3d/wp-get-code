@@ -24,14 +24,21 @@
           </h2>
           <hr>
           <section>
-            <h4>Checkout</h4>
             <form id="custom-options-form">
-              <table class="form-table">
+              <div class="form-table">
+                <h4>Checkout</h4>
                 <div class="form-group">
                   <label class="form-label">Merchant Address</label>
                   <input class="form-control" type="text" name="get_code_opt_default_merchant_address" value="<?php echo esc_attr(get_option('get_code_opt_default_merchant_address')); ?>" />
                 </div>
-              </table>
+              </div>
+              <div class="form-table">
+                <h4>Content Paywall</h4>
+                <div class="form-group">
+                  <label class="form-label">Default Message</label>
+                  <textarea class="form-control" name="get_code_opt_default_paywall_message" value="<?php echo esc_attr(get_option('get_code_opt_default_paywall_message')); ?>" />
+                </div>
+              </div>
               <?php wp_nonce_field(GET_CODE_NONCE, 'custom_options_nonce'); ?>
               <input type="submit" class="button button-primary" value="Save Options">
             </form>
@@ -42,34 +49,36 @@
   </div>
 </div>
 <script>
-    jQuery(document).ready(function($) {
-      $('#custom-options-form').submit(function(e) {
-        e.preventDefault();
+  jQuery(document).ready(function($) {
+    $('#custom-options-form').submit(function(e) {
+      e.preventDefault();
 
-        const merchantAddress = $('[name="get_code_opt_default_merchant_address"]')[0].value;
+      const merchantAddress = $('[name="get_code_opt_default_merchant_address"]')[0].value;
+      const paywallMessage = $('[name="get_code_opt_default_paywall_message"]')[0].value;
 
-        var nonce = $('#custom_options_nonce').val();
+      var nonce = $('#custom_options_nonce').val();
 
-        $.ajax({
-          type: 'POST',
-          url: ajaxurl,
-          data: {
-            action: 'save_custom_options',
-            merchant_address: merchantAddress,
-            nonce: nonce
-          },
-          dataType: 'json',
-          success: function(response) {
-            if (response.success) {
-              alert('Options saved successfully!');
-            } else {
-              alert('Error saving options. Please try again.');
-            }
+      $.ajax({
+        type: 'POST',
+        url: ajaxurl,
+        data: {
+          action: 'save_custom_options',
+          merchant_address: merchantAddress,
+          payall_message: paywallMessage,
+          nonce: nonce
+        },
+        dataType: 'json',
+        success: function(response) {
+          if (response.success) {
+            alert('Options saved successfully!');
+          } else {
+            alert('Error saving options. Please try again.');
           }
-        });
+        }
       });
     });
-  </script>
+  });
+</script>
 
 
 <?

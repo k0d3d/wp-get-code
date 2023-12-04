@@ -60,7 +60,7 @@ protected function render() {
     $merchant_address = $settings['merchant_address'];
 
     // Wrap content in shortcode tags
-    $shortcode_content = "[get_code_wall merchant_address=\"$merchant_address\"]$custom_content[/get_code_wall]";
+    $shortcode_content = '[get_code_wall merchant_address="'. $merchant_address .'"]'. $custom_content. '[/get_code_wall]';
 
     echo esc_html($shortcode_content);
     // echo do_shortcode($shortcode_content);
