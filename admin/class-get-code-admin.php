@@ -54,6 +54,10 @@ class Get_Code_Admin
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
+		$this->admin_init();
+
+		$this->init_elementor_widgets();
+
 	}
 
 	/**
@@ -129,4 +133,19 @@ class Get_Code_Admin
 	{
 		include_once(GET_CODE_APP_PATH . 'admin/partials/get-code-admin-display.php');
 	}
+
+	public function init_elementor_widgets () {
+
+		function register_get_code_widget( $widgets_manager ) {
+
+			require_once( __DIR__ . '/partials/get-code-admin-elementor-widget.php' );
+		
+			$widgets_manager->register( new Get_Code_Elementor_Widget() );
+		
+		}
+
+		add_action( 'elementor/widgets/register', 'register_get_code_widget' );
+
+	}
+
 }
