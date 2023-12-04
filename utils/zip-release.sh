@@ -3,4 +3,4 @@
 
 git add -A
 git commit -am "zipped on `date` "
-git archive --prefix=pxl-v-cam-app/ -o release/release.zip HEAD
+git archive --prefix=get-code-app/ -o release/release.zip HEAD

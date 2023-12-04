@@ -37,6 +37,9 @@ if ( ! defined( 'WPINC' ) ) {
  */
 define( 'GET_CODE_VERSION', '1.0.0' );
 
+define('GET_CODE_APP_PATH', plugin_dir_path(__FILE__));
+define('GET_CODE_APP_URL', plugin_dir_url(__FILE__));
+
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-get-code-activator.php

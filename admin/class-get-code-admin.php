@@ -20,7 +20,8 @@
  * @subpackage Get_Code/admin
  * @author     GetCode <michael.rhema@gmail.com>
  */
-class Get_Code_Admin {
+class Get_Code_Admin
+{
 
 	/**
 	 * The ID of this plugin.
@@ -47,11 +48,11 @@ class Get_Code_Admin {
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct($plugin_name, $version)
+	{
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
 	}
 
 	/**
@@ -59,7 +60,8 @@ class Get_Code_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -73,8 +75,7 @@ class Get_Code_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/get-code-admin.css', array(), $this->version, 'all' );
-
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/get-code-admin.css', array(), $this->version, 'all');
 	}
 
 	/**
@@ -82,7 +83,8 @@ class Get_Code_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -96,8 +98,33 @@ class Get_Code_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/get-code-admin.js', array( 'jquery' ), $this->version, false );
-
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/get-code-admin.js', array('jquery'), $this->version, false);
 	}
 
+	/**
+	 * Add Admin Page Menu page.
+	 *
+	 * @since    1.0.0
+	 */
+	public function add_admin_menu()
+	{
+
+		add_menu_page(
+			esc_html__('Get Code', 'get-code'),
+			esc_html__('Get Code', 'get-code'),
+			'manage_options',
+			$this->plugin_name,
+			array($this, 'add_setting_root_div')
+		);
+	}
+
+	/**
+	 * Add HTML For Admin Options Screen.
+	 *
+	 * @since    1.0.0
+	 */
+	public function add_setting_root_div()
+	{
+		include_once(GET_CODE_APP_PATH . 'admin/partials/get-code-admin-display.php');
+	}
 }
