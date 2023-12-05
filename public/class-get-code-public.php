@@ -113,7 +113,7 @@ class Get_Code_Public
 			$custom_text = '<div class="get_code_opt_default_paywall_message">' . $custom_text . '</div>';
 		} else {
 			$hidden_content_text = __('Purchase this item to view this hidden content', 'restricted-content-based-on-purchase');
-			$custom_text = '<div class="get_code_opt_default_paywall_message"><p>' . $hidden_content_text . '</p></div>';
+			$custom_text = '<div class="get_code_opt_default_paywall_message"><p>' . $hidden_content_text . '</p><div class="get-code-button-container"></div></div>';
 		}
 		return $custom_text;
 	}
@@ -128,10 +128,12 @@ class Get_Code_Public
 
 		$current_user = wp_get_current_user();
 
-		if (current_user_can('administrator') || wc_customer_bought_product($current_user->email, $current_user->ID, $atts['id'])) {
+		$merchant_address = $atts['merchant_address'];
+
+		if (current_user_can('administrator') || wc_customer_bought_product($current_user->email, $current_user->ID, $merchant_address)) {
 
 			// // if the selected product id for the snippet option is different from the product id in the shortcode
-			if (!current_user_can('administrator') && $post->get_code_product_select && $post->get_code_meta_info && 'hide_excerpt_meta' === $post->get_code_meta_info && $atts['id'] !== $post->get_code_product_select) {
+			if (!current_user_can('administrator') && $post->get_code_product_select && $post->get_code_meta_info && 'hide_excerpt_meta' === $post->get_code_meta_info && $merchant_address !== $post->get_code_product_select) {
 				$custom_text = $this->get_code_display_custom_text();
 				$output .= $custom_text;
 			} else {
@@ -153,8 +155,11 @@ class Get_Code_Public
 
 	public function init_shortcodes()
 	{
-		add_action('init', function () {
-			add_shortcode('get_code_wall', [$this,  'get_code_show_content']);
+		$instance = $this;
+		add_action('init', function () use ($instance) {
+			add_shortcode('get_code_wall', function ($atts, $content) use ($instance) {
+				return $instance->get_code_show_content($atts, $content);
+			});
 		});
 	}
 }

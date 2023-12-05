@@ -11,6 +11,7 @@
  * @package    Get_Code
  * @subpackage Get_Code/admin/partials
  */
+defined( 'ABSPATH' ) || exit;
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
@@ -36,7 +37,7 @@
                 <h4>Content Paywall</h4>
                 <div class="form-group">
                   <label class="form-label">Default Message</label>
-                  <textarea class="form-control" name="get_code_opt_default_paywall_message" value="<?php echo esc_attr(get_option('get_code_opt_default_paywall_message')); ?>" />
+                  <textarea class="form-control" name="get_code_opt_default_paywall_message" value="<?php echo esc_attr(get_option('get_code_opt_default_paywall_message')); ?>"></textarea>
                 </div>
               </div>
               <?php wp_nonce_field(GET_CODE_NONCE, 'custom_options_nonce'); ?>
