@@ -3,7 +3,11 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 
-ReactDOM.createRoot(document.getElementById('get-code-button-container')!).render(
+const root = document.getElementById('get-code-button-container')
+
+console.log(root)
+
+ReactDOM.createRoot(root!).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
