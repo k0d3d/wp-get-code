@@ -11,7 +11,7 @@
  * @package    Get_Code
  * @subpackage Get_Code/admin/partials
  */
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
@@ -33,15 +33,17 @@ defined( 'ABSPATH' ) || exit;
                   <input class="form-control" type="text" name="get_code_opt_default_merchant_address" value="<?php echo esc_attr(get_option('get_code_opt_default_merchant_address')); ?>" />
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Merchant Address</label>
-                  <input class="form-control" type="text" name="get_code_opt_default_amount" value="<?php echo esc_attr(get_option('get_code_opt_default_amount')); ?>" />
+                  <label class="form-label">Default Amount</label>
+                  <input class="form-control" type="number" name="get_code_opt_default_amount" value="<?php echo esc_attr(get_option('get_code_opt_default_amount')); ?>" />
                 </div>
               </div>
               <div class="form-table">
                 <h4>Content Paywall</h4>
                 <div class="form-group">
                   <label class="form-label">Default Message</label>
-                  <textarea class="form-control" name="get_code_opt_default_paywall_message" value="<?php echo esc_attr(get_option('get_code_opt_default_paywall_message')); ?>"></textarea>
+                  <textarea class="form-control" name="get_code_opt_default_paywall_message" >
+                  <?php echo esc_attr(get_option('get_code_opt_default_paywall_message')); ?>
+                  </textarea>
                 </div>
               </div>
               <?php wp_nonce_field(GET_CODE_NONCE, 'custom_options_nonce'); ?>
