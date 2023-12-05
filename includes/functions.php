@@ -15,7 +15,7 @@ function save_purchase_record($data) {
   global $wpdb;
 
   // Replace 'wp_get_code_user_purchases' with your actual table name
-  $table_name = $wpdb->prefix . 'wp_get_code_user_purchases';
+  $table_name = $wpdb->prefix . GET_CODE_TABLE_NAME_USER_PURCHASES;
 
   // Prepare data for insertion
   $insert_data = array(

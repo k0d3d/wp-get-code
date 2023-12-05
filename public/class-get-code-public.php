@@ -106,10 +106,13 @@ class Get_Code_Public
 
 
 		// Localize script with additional data
+		$current_post = get_post(); 
+		if (empty($current_post)) return;
 		wp_localize_script($this->plugin_name . '-js-app', 'GetCodeAppVars', array(
 			'nonce' => wp_create_nonce(GET_CODE_NONCE),
 			'user_id' => get_current_user_id(),
 			'ajax_url' => admin_url('admin-ajax.php'),
+			'post_id' => $current_post->ID
 
 		));
 	}
@@ -196,14 +199,14 @@ class Get_Code_Public
 
 	private function init_ajax_complete_user_post_purchase()
 	{
-		add_action('wp_ajax_get_code_save_purchase', 'save_purchase_ajax');
+		add_action('wp_ajax_get_code_save_purchase', [ $this, 'save_purchase_ajax']);
 	}
 
 	// Callback function for the AJAX endpoint
 	function save_purchase_ajax()
 	{
 		// Verify the nonce for security
-		check_ajax_referer('save_purchase_nonce', 'nonce');
+		check_ajax_referer(GET_CODE_NONCE, 'nonce');
 
 		// Validate and sanitize input data
 		$data = array(
