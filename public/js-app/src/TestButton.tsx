@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 // @ts-expect-error defined
-const getCodeApp =  typeof window.getCodeApp == "undefined" ? getCodeApp : {}
+const getCodeApp =  typeof window.GetCodeAppVars != "undefined" ? window.GetCodeAppVars : {}
 
 const PurchaseButton = () => {
   const [responseMessage, setResponseMessage] = useState('');
@@ -10,7 +10,7 @@ const PurchaseButton = () => {
   const handlePurchase = async () => {
     // Example data
     const data = {
-      action: 'save_purchase',
+      action: 'get_code_save_purchase',
       nonce: getCodeApp.nonce, 
       user_id: getCodeApp.user_id,
       post_url: 'http://example.com',

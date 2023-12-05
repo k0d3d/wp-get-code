@@ -55,6 +55,7 @@ class Get_Code_Public
 		$this->version = $version;
 
 		$this->init_shortcodes();
+		$this->init_ajax_complete_user_post_purchase();
 	}
 
 	/**
@@ -105,7 +106,7 @@ class Get_Code_Public
 
 
 		// Localize script with additional data
-		wp_localize_script($this->plugin_name . '-js-app', 'getCodeApp', array(
+		wp_localize_script($this->plugin_name . '-js-app', 'GetCodeAppVars', array(
 			'nonce' => wp_create_nonce(GET_CODE_NONCE),
 			'user_id' => get_current_user_id(),
 			'ajax_url' => admin_url('admin-ajax.php'),
@@ -195,7 +196,7 @@ class Get_Code_Public
 
 	private function init_ajax_complete_user_post_purchase()
 	{
-		add_action('wp_ajax_save_purchase', 'save_purchase_ajax');
+		add_action('wp_ajax_get_code_save_purchase', 'save_purchase_ajax');
 	}
 
 	// Callback function for the AJAX endpoint
