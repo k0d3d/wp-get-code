@@ -16,9 +16,9 @@ function CodeButton({destination, amount}: TCodeButton) {
       destination: destination || 'E8otxw1CVX9bfyddKu3ZB3BVLa4VVF9J7CTPdnUwT9jR',
       amount: amount || 0.05,
     });
-
+    console.log(destination, amount)
     button && button.mount(el.current!);
-  }, []);
+  }, [amount, destination]);
 
   return (
     <>
