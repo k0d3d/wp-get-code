@@ -78,7 +78,13 @@ class Get_Code_Admin
 		 * class.
 		 */
 
-		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/get-code-admin.css', array(), $this->version, 'all');
+		$screen = get_current_screen();
+		
+    // Check if the current screen is your plugin's settings page
+    if (is_object($screen) && $screen->id === 'get-code') {
+			// Enqueue your styles here
+				wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/get-code-admin.css', array(), $this->version, 'all');
+    }
 	}
 
 	/**
