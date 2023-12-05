@@ -11,8 +11,8 @@ const PurchaseButton = () => {
     // Example data
     const data = {
       action: 'save_purchase',
-      nonce: 'yourNonce', // Replace 'yourNonce' with the actual nonce value
-      user_id: 1,
+      nonce: getCodeApp.nonce, 
+      user_id: getCodeApp.user_id,
       post_url: 'http://example.com',
       post_id: 'abc123',
       code_tx_id: 'xyz789',
@@ -21,7 +21,7 @@ const PurchaseButton = () => {
     };
 
     try {
-      const response = await fetch(getCodeApp.ajaxUrl, {
+      const response = await fetch(getCodeApp.ajax_url, {
         method: 'POST',
         // @ts-ignore
         body: new URLSearchParams(data),
