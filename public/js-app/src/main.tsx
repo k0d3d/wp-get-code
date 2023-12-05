@@ -1,12 +1,10 @@
 import React from 'react'
-import { render } from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 
-
-render(
+ReactDOM.createRoot(document.getElementById('get-code-button-container')!).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  document.getElementById('get-code-button-container')!
 )
