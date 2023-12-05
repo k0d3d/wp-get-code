@@ -131,18 +131,14 @@ class Get_Code_Public
 
 		$merchant_address = $atts['merchant_address'];
 
-		if (current_user_can('administrator') || wc_customer_bought_product($current_user->email, $current_user->ID, $merchant_address)) {
+		if (current_user_can('administrator') || $this->has_user_purchased($post->ID)) {
 
 			// // if the selected product id for the snippet option is different from the product id in the shortcode
-			if (!current_user_can('administrator') && $post->get_code_product_select && $post->get_code_meta_info && 'hide_excerpt_meta' === $post->get_code_meta_info && $merchant_address !== $post->get_code_product_select) {
-				$custom_text = $this->get_code_display_custom_text();
-				$output .= $custom_text;
-			} else {
-				if (!is_null($content)) {
-					// protects output via content variable
-					$output .= apply_filters('the_content', $content);
-				}
+			if (!is_null($content)) {
+				// protects output via content variable
+				$output .= apply_filters('the_content', $content);
 			}
+
 		} else {
 			// if user has not purchased product & is not admin
 			$custom_text = $this->get_code_display_custom_text();
@@ -163,4 +159,31 @@ class Get_Code_Public
 			});
 		});
 	}
+
+	public function has_user_purchased($post_id) {
+    global $wpdb;
+
+    // Replace 'your_table_name' with the actual table name
+    $table_name = $wpdb->prefix . GET_CODE_TABLE_NAME_USER_PURCHASES;
+
+    // Get the current user ID
+    $user_id = get_current_user_id();
+
+    // Prepare and execute the SQL query
+    $query = $wpdb->prepare(
+        "SELECT COUNT(id) FROM %d WHERE user_id = %d AND post_id = %d",
+				array(
+					$table_name,
+					$user_id,
+					$post_id
+				)
+    );
+
+    $purchase_count = $wpdb->get_var($query);
+
+    // Check if the user has made any purchases
+    return $purchase_count > 0;
+}
+
+
 }
