@@ -113,7 +113,7 @@ class Get_Code_Public
 			$custom_text = '<div class="get_code_opt_default_paywall_message">' . $custom_text . '</div>';
 		} else {
 			$hidden_content_text = __('Purchase this item to view this hidden content', 'restricted-content-based-on-purchase');
-			$custom_text = '<div class="get_code_opt_default_paywall_message"><p>' . $hidden_content_text . '</p><div class="get-code-button-container"></div></div>';
+			$custom_text = '<div class="get_code_opt_default_paywall_message"><p>' . $hidden_content_text . '</p><div id="get-code-button-container"></div></div>';
 		}
 		return $custom_text;
 	}
