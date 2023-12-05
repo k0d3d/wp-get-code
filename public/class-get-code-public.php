@@ -138,7 +138,6 @@ class Get_Code_Public
 				// protects output via content variable
 				$output .= apply_filters('the_content', $content);
 			}
-
 		} else {
 			// if user has not purchased product & is not admin
 			$custom_text = $this->get_code_display_custom_text();
@@ -160,30 +159,68 @@ class Get_Code_Public
 		});
 	}
 
-	public function has_user_purchased($post_id) {
-    global $wpdb;
+	public function has_user_purchased($post_id)
+	{
+		global $wpdb;
 
-    // Replace 'your_table_name' with the actual table name
-    $table_name = $wpdb->prefix . GET_CODE_TABLE_NAME_USER_PURCHASES;
+		// Replace 'your_table_name' with the actual table name
+		$table_name = $wpdb->prefix . GET_CODE_TABLE_NAME_USER_PURCHASES;
 
-    // Get the current user ID
-    $user_id = get_current_user_id();
+		// Get the current user ID
+		$user_id = get_current_user_id();
 
-    // Prepare and execute the SQL query
-    $query = $wpdb->prepare(
-        "SELECT COUNT(id) FROM %d WHERE user_id = %d AND post_id = %d",
-				array(
-					$table_name,
-					$user_id,
-					$post_id
-				)
-    );
+		// Prepare and execute the SQL query
+		$query = $wpdb->prepare(
+			"SELECT COUNT(id) FROM %d WHERE user_id = %d AND post_id = %d",
+			array(
+				$table_name,
+				$user_id,
+				$post_id
+			)
+		);
 
-    $purchase_count = $wpdb->get_var($query);
+		$purchase_count = $wpdb->get_var($query);
 
-    // Check if the user has made any purchases
-    return $purchase_count > 0;
-}
+		// Check if the user has made any purchases
+		return $purchase_count > 0;
+	}
 
+	private function init_ajax_complete_user_post_purchase()
+	{
+		add_action('wp_ajax_save_purchase', 'save_purchase_ajax');
+	}
 
+	// Callback function for the AJAX endpoint
+	function save_purchase_ajax()
+	{
+		// Verify the nonce for security
+		check_ajax_referer('save_purchase_nonce', 'nonce');
+
+		// Validate and sanitize input data
+		$data = array(
+			'user_id'    => ! empty($_POST['user_id']) ? absint($_POST['user_id']) : '',
+			'post_url'   => ! empty($_POST['post_url']) ? esc_url_raw($_POST['post_url']) : '',
+			'post_id'    => ! empty($_POST['post_id']) ? sanitize_text_field($_POST['post_id']) : '',
+			'code_tx_id' => ! empty($_POST['code_tx_id']) ? sanitize_text_field($_POST['code_tx_id']) : '',
+			'tx_intent'  => ! empty($_POST['tx_intent']) ? sanitize_text_field($_POST['tx_intent']) : '',
+			'tx_status'  => ! empty($_POST['tx_status']) ? sanitize_text_field($_POST['tx_status']) : '',
+	);
+	
+
+		// Additional data validation if needed
+
+		// Perform the purchase record save
+		$record_id = save_purchase_record($data);
+
+		if ($record_id) {
+			// Return a success response with the inserted record ID
+			wp_send_json_success(array('record_id' => $record_id));
+		} else {
+			// Return an error response
+			wp_send_json_error(array('message' => 'Failed to insert record.'));
+		}
+
+		// Always exit to avoid extra output
+		wp_die();
+	}
 }
