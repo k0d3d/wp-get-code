@@ -102,6 +102,15 @@ class Get_Code_Public
 
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/get-code-public.js', array('jquery'), $this->version, true);
 		wp_enqueue_script($this->plugin_name . '-js-app', plugin_dir_url(__FILE__) . 'js/assets/index.js', array($this->plugin_name), $this->version, true);
+
+
+		// Localize script with additional data
+		wp_localize_script($this->plugin_name . '-js-app', 'getCodeApp', array(
+			'nonce' => wp_create_nonce(GET_CODE_NONCE),
+			'user_id' => get_current_user_id(),
+			'ajax_url' => admin_url('admin-ajax.php'),
+
+		));
 	}
 
 	/**
@@ -198,14 +207,14 @@ class Get_Code_Public
 
 		// Validate and sanitize input data
 		$data = array(
-			'user_id'    => ! empty($_POST['user_id']) ? absint($_POST['user_id']) : '',
-			'post_url'   => ! empty($_POST['post_url']) ? esc_url_raw($_POST['post_url']) : '',
-			'post_id'    => ! empty($_POST['post_id']) ? sanitize_text_field($_POST['post_id']) : '',
-			'code_tx_id' => ! empty($_POST['code_tx_id']) ? sanitize_text_field($_POST['code_tx_id']) : '',
-			'tx_intent'  => ! empty($_POST['tx_intent']) ? sanitize_text_field($_POST['tx_intent']) : '',
-			'tx_status'  => ! empty($_POST['tx_status']) ? sanitize_text_field($_POST['tx_status']) : '',
-	);
-	
+			'user_id'    => !empty($_POST['user_id']) ? absint($_POST['user_id']) : '',
+			'post_url'   => !empty($_POST['post_url']) ? esc_url_raw($_POST['post_url']) : '',
+			'post_id'    => !empty($_POST['post_id']) ? sanitize_text_field($_POST['post_id']) : '',
+			'code_tx_id' => !empty($_POST['code_tx_id']) ? sanitize_text_field($_POST['code_tx_id']) : '',
+			'tx_intent'  => !empty($_POST['tx_intent']) ? sanitize_text_field($_POST['tx_intent']) : '',
+			'tx_status'  => !empty($_POST['tx_status']) ? sanitize_text_field($_POST['tx_status']) : '',
+		);
+
 
 		// Additional data validation if needed
 

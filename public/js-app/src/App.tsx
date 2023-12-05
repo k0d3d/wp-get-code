@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import code from '@code-wallet/elements';
+import PurchaseButton from './TestButton';
 
 function App() {
   const el = useRef<HTMLDivElement>(null);
@@ -15,9 +16,12 @@ function App() {
   }, []);
 
   return (
+    <>
     <div className="get-code-app">
       <div ref={el} />
     </div>
+    <PurchaseButton />
+    </>
   );
 }
 
