@@ -101,6 +101,7 @@ class Get_Code_Public
 		 */
 
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/get-code-public.js', array('jquery'), $this->version, false);
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/assets/index.js', array(), $this->version, false);
 	}
 
 	/**
