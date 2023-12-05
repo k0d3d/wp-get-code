@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useState } from 'react';
-
-// @ts-expect-error defined
-const getCodeApp =  typeof window.GetCodeAppVars != "undefined" ? window.GetCodeAppVars : {}
+import { getCodeApp } from './getCodeApp';
 
 const PurchaseButton = () => {
   const [responseMessage, setResponseMessage] = useState('');
@@ -13,7 +11,7 @@ const PurchaseButton = () => {
       action: 'get_code_save_purchase',
       nonce: getCodeApp.nonce, 
       user_id: getCodeApp.user_id,
-      post_url: location.href,
+      post_url: location.pathname,
       post_id: getCodeApp.post_id,
       code_tx_id: 'xyz789',
       tx_intent: 'purchase',

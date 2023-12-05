@@ -32,6 +32,10 @@ defined( 'ABSPATH' ) || exit;
                   <label class="form-label">Merchant Address</label>
                   <input class="form-control" type="text" name="get_code_opt_default_merchant_address" value="<?php echo esc_attr(get_option('get_code_opt_default_merchant_address')); ?>" />
                 </div>
+                <div class="form-group">
+                  <label class="form-label">Merchant Address</label>
+                  <input class="form-control" type="text" name="get_code_opt_default_amount" value="<?php echo esc_attr(get_option('get_code_opt_default_amount')); ?>" />
+                </div>
               </div>
               <div class="form-table">
                 <h4>Content Paywall</h4>
@@ -56,6 +60,7 @@ defined( 'ABSPATH' ) || exit;
 
       const merchantAddress = $('[name="get_code_opt_default_merchant_address"]')[0].value;
       const paywallMessage = $('[name="get_code_opt_default_paywall_message"]')[0].value;
+      const amount = $('[name="get_code_opt_default_amount"]')[0].value;
 
       var nonce = $('#custom_options_nonce').val();
 
@@ -66,6 +71,7 @@ defined( 'ABSPATH' ) || exit;
           action: 'save_custom_options',
           merchant_address: merchantAddress,
           payall_message: paywallMessage,
+          default_amount: amount,
           nonce: nonce
         },
         dataType: 'json',

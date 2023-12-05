@@ -55,7 +55,7 @@ class Get_Code_Admin
 		$this->version = $version;
 
 		$this->init_elementor_widgets();
-
+		$this->init_save_admin_options();
 	}
 
 	/**
@@ -149,6 +149,33 @@ class Get_Code_Admin
 
 		add_action( 'elementor/widgets/register', 'register_get_code_widget' );
 
+	}
+
+	public function init_save_admin_options()
+	{
+			function save_custom_options()
+			{
+					check_ajax_referer(GET_CODE_NONCE, 'nonce');
+
+					if (current_user_can('manage_options')) {
+							$merchant_address = isset($_POST['merchant_address']) ? sanitize_text_field($_POST['merchant_address']) : '';
+							$amount = isset($_POST['amount']) ? sanitize_text_field($_POST['amount']) : '';
+							$payall_message = isset($_POST['payall_message']) ? sanitize_text_field($_POST['payall_message']) : '';
+
+							update_option('get_code_opt_default_merchant_address', $merchant_address);
+							update_option('get_code_opt_default_amount', $amount);
+							update_option('get_code_opt_default_paywall_message', $payall_message);
+
+							wp_send_json_success([
+									"merchant_address" => $merchant_address,
+									"amount" => $amount,
+									"paywall_message" => $payall_message
+							]);
+					} else {
+							wp_send_json_error();
+					}
+			}
+			add_action('wp_ajax_save_custom_options', 'save_custom_options');
 	}
 
 }

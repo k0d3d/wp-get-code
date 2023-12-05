@@ -112,7 +112,8 @@ class Get_Code_Public
 			'nonce' => wp_create_nonce(GET_CODE_NONCE),
 			'user_id' => get_current_user_id(),
 			'ajax_url' => admin_url('admin-ajax.php'),
-			'post_id' => $current_post->ID
+			'post_id' => $current_post->ID,
+			'destination' => get_option(('get_code_opt_default_merchant_address'))
 
 		));
 	}
