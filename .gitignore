@@ -63,3 +63,4 @@ release
 todo.todo
 
 public/js-app/node_modules
+public/js-app/pnpm-lock.yaml
