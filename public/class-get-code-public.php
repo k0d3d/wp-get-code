@@ -180,9 +180,8 @@ class Get_Code_Public
 
 		// Prepare and execute the SQL query
 		$query = $wpdb->prepare(
-			"SELECT COUNT(id) FROM %s WHERE user_id = %d AND post_id = %d",
+			"SELECT COUNT(id) FROM $table_name WHERE user_id = %d AND post_id = %d",
 			array(
-				$table_name,
 				$user_id,
 				$post_id
 			)
