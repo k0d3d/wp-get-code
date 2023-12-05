@@ -153,7 +153,7 @@ class Get_Code_Admin
 
 	public function init_save_admin_options()
 	{
-			function save_custom_options()
+			function get_code_save_custom_options()
 			{
 					check_ajax_referer(GET_CODE_NONCE, 'nonce');
 
@@ -175,7 +175,7 @@ class Get_Code_Admin
 							wp_send_json_error();
 					}
 			}
-			add_action('wp_ajax_save_custom_options', 'save_custom_options');
+			add_action('wp_ajax_get_code_save_custom_options', 'get_code_save_custom_options');
 	}
 
 }

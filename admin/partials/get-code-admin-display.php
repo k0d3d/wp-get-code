@@ -68,9 +68,9 @@ defined( 'ABSPATH' ) || exit;
         type: 'POST',
         url: ajaxurl,
         data: {
-          action: 'save_custom_options',
+          action: 'get_code_save_custom_options',
           merchant_address: merchantAddress,
-          payall_message: paywallMessage,
+          paywall_message: paywallMessage,
           default_amount: amount,
           nonce: nonce
         },
