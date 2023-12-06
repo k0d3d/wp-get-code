@@ -155,8 +155,8 @@ class Get_Code_Public
 
 		$current_user = wp_get_current_user();
 
-		$merchant_address = $atts['merchant_address'];
-		$amount = $atts['amount'];
+		$merchant_address = !empty($atts['merchant_address']) ? $atts['merchant_address'] : null;
+		$amount = !empty($atts['amount']) ? $atts['amount'] : null;
 
 		if (current_user_can('administrator') || $this->has_user_purchased($post->ID)) {
 

@@ -34,7 +34,7 @@ defined('ABSPATH') || exit;
                 </div>
                 <div class="form-group">
                   <label class="form-label">Default Amount</label>
-                  <input class="form-control" type="number" name="get_code_opt_default_amount" value="<?php echo esc_attr(get_option('get_code_opt_default_amount')); ?>" />
+                  <input class="form-control" type="text" name="get_code_opt_default_amount" value="<?php echo esc_attr(get_option('get_code_opt_default_amount')); ?>" />
                 </div>
               </div>
               <div class="form-table">

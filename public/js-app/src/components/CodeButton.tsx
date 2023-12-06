@@ -10,12 +10,12 @@ type TCodeButton = {
 
 function CodeButton({ destination, amount }: TCodeButton) {
   const el = useRef<HTMLDivElement>(null);
-
+  console.log(destination, amount)
   useEffect(() => {
     const { button } = code.elements.create('button', {
       currency: 'usd',
       destination: destination,
-      amount: amount,
+      amount: amount || 0.5,
     });
 
     if (!button) return
