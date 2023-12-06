@@ -1,30 +1,39 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef } from 'react';
 import code from '@code-wallet/elements';
+import { handlePurchase } from '../common/fetch';
 
 type TCodeButton = {
   destination: string
   amount: number
 }
 
-function CodeButton({destination, amount}: TCodeButton) {
+function CodeButton({ destination, amount }: TCodeButton) {
   const el = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const { button } = code.elements.create('button', {
       currency: 'usd',
-      destination: destination || 'E8otxw1CVX9bfyddKu3ZB3BVLa4VVF9J7CTPdnUwT9jR',
-      amount: amount || 0.05,
+      destination: destination,
+      amount: amount,
     });
-    console.log(destination, amount)
-    button && button.mount(el.current!);
+
+    if (!button) return
+
+    button.on('success', async () => {
+      await handlePurchase()
+      location.reload()
+    });
+
+    button.mount(el.current!);
+
   }, [amount, destination]);
 
   return (
     <>
-    <div className="get-code-app">
-      <div ref={el} />
-    </div>
+      <div className="get-code-app">
+        <div ref={el} />
+      </div>
     </>
   );
 }

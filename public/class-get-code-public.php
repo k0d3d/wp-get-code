@@ -113,7 +113,8 @@ class Get_Code_Public
 			'user_id' => get_current_user_id(),
 			'ajax_url' => admin_url('admin-ajax.php'),
 			'post_id' => $current_post->ID,
-			'destination' => get_option(('get_code_opt_default_merchant_address'))
+			'destination' => get_option('get_code_opt_default_merchant_address'),
+			'default_amount' => get_option('get_code_opt_default_amount')
 
 		));
 	}
@@ -121,14 +122,25 @@ class Get_Code_Public
 	/**
 	 * Displaying the custom text
 	 */
-	private function get_code_display_custom_text()
+	private function get_code_display_custom_text($merchant_address, $amount)
 	{
+
+		$html_attr = '';
+
+		if(!empty($merchant_address)) {
+			$html_attr .= "data-merchant-address='$merchant_address'" ;
+		}
+
+		if(!empty($amount)) {
+			$html_attr .= "data-default-amount='$amount'" ;
+		}
+
 		if (get_option("get_code_opt_default_paywall_message")) {
 			$custom_text = get_option("get_code_opt_default_paywall_message");
-			$custom_text = '<div class="get_code_opt_default_paywall_message">' . $custom_text . '</div>';
+			$custom_text = '<div class="get_code_opt_default_paywall_message">' . $custom_text . '<div id="get-code-button-container" '. $html_attr .' ></div></div>';
 		} else {
 			$hidden_content_text = __('Purchase this item to view this hidden content', 'restricted-content-based-on-purchase');
-			$custom_text = '<div class="get_code_opt_default_paywall_message"><p>' . $hidden_content_text . '</p><div id="get-code-button-container"></div></div>';
+			$custom_text = '<div class="get_code_opt_default_paywall_message"><p>' . $hidden_content_text . '</p><div id="get-code-button-container" '. $html_attr .' ></div></div>';
 		}
 		return $custom_text;
 	}
@@ -144,6 +156,7 @@ class Get_Code_Public
 		$current_user = wp_get_current_user();
 
 		$merchant_address = $atts['merchant_address'];
+		$amount = $atts['amount'];
 
 		if (current_user_can('administrator') || $this->has_user_purchased($post->ID)) {
 
@@ -154,7 +167,7 @@ class Get_Code_Public
 			}
 		} else {
 			// if user has not purchased product & is not admin
-			$custom_text = $this->get_code_display_custom_text();
+			$custom_text = $this->get_code_display_custom_text($merchant_address, $amount);
 			$output .= $custom_text;
 		}
 
