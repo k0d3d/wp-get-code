@@ -15,7 +15,7 @@ function CodeButton({ destination, amount }: TCodeButton) {
     const { button } = code.elements.create('button', {
       currency: 'usd',
       destination: destination,
-      amount: amount || 0.5,
+      amount: 0.5,
     });
 
     if (!button) return
