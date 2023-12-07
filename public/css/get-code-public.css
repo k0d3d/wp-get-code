@@ -18,11 +18,13 @@
   margin: 0 auto;
   border-radius: 10px;
  	box-shadow: 0 1px 8px 4px #44444424;
-  padding: 15px 0;
+  padding: 45px 0;
  }
 
  .get_code_default_message_container  p {
  	text-align: center;
+  width: 75%;
+  margin: 0 auto;
  }
 
 .get_code_opt_default_paywall_message .help-tip {
