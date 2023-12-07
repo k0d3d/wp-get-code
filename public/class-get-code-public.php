@@ -141,7 +141,20 @@ class Get_Code_Public
 			$custom_text = '<div class="get_code_opt_default_paywall_message">' . $custom_text . '<div id="get-code-button-container" ' . $html_attr . ' ></div></div>';
 		} else {
 			$hidden_content_text = __('Purchase this item to view this hidden content', 'restricted-content-based-on-purchase');
-			$custom_text = '<div class="get_code_opt_default_paywall_message"><p>' . $hidden_content_text . '</p><div id="get-code-button-container" ' . $html_attr . ' ></div></div>';
+			$custom_text = '<div class="get_code_opt_default_paywall_message">
+				<div class="get_code_default_message_container">
+					<p>
+					Unlock the rest of this article
+					for '.$amount.'
+					</p>
+					<div id="get-code-button-container" ' . $html_attr . ' ></div>
+					<p>
+						<span class="help-tip">Don’t have the Code Wallet app yet?
+							<a href="https://www.getcode.com/#Download" target="_blank">Download It Now</a> and get your first $1 free
+						</span>
+					</p>
+				</div>
+			</div>';
 		}
 		return $custom_text;
 	}
@@ -159,7 +172,7 @@ class Get_Code_Public
 		$merchant_address = !empty($atts['merchant_address']) ? $atts['merchant_address'] : null;
 		$amount = !empty($atts['amount']) ? $atts['amount'] : null;
 
-		if (current_user_can('administrator') || $this->has_user_purchased($post->ID)) {
+		if (current_user_can('administrator') || has_user_purchased($post->ID)) {
 
 			if (!is_null($content)) {
 				// protects output via content variable
@@ -186,30 +199,7 @@ class Get_Code_Public
 		});
 	}
 
-	public function has_user_purchased($post_id)
-	{
-		global $wpdb;
-
-		// Replace 'your_table_name' with the actual table name
-		$table_name = $wpdb->prefix . GET_CODE_TABLE_NAME_USER_PURCHASES;
-
-		// Get the current user ID
-		$user_id = get_current_user_id();
-
-		// Prepare and execute the SQL query
-		$query = $wpdb->prepare(
-			"SELECT COUNT(id) FROM $table_name WHERE user_id = %d AND post_id = %d",
-			array(
-				$user_id,
-				$post_id
-			)
-		);
-
-		$purchase_count = $wpdb->get_var($query);
-
-		// Check if the user has made any purchases
-		return $purchase_count > 0;
-	}
+	// public 
 
 	private function init_ajax_complete_user_post_purchase()
 	{
@@ -253,34 +243,41 @@ class Get_Code_Public
 	public function init_filter_the_content_for_shortcode()
 	{
 
-		function get_code_content_display()
+		function get_code_content_display($content)
 		{
-			global $post;
 
 			// Check if the current post content contains the shortcode [get_code_wall]
-			if (is_a($post, 'WP_Post') && has_shortcode($post->post_content, 'get_code_wall')) {
-				// Get the content before the shortcode
-				$content_before_shortcode = get_code_shortcode_content($post->post_content, 'get_code_wall');
+			if (has_shortcode($content, 'get_code_wall')) {
 
+				// Get the content before the shortcode
+				$content_before_shortcode = get_code_shortcode_content($content, 'get_code_wall');
+				$content_before_shortcode .= do_shortcode('[get_code_wall]');
 				// Display only the content before the shortcode
-				echo apply_filters('the_content', $content_before_shortcode);
+				return apply_filters('the_content', $content_before_shortcode);
+				// return 
 			} else {
 				// Display the entire content
-				the_content();
+				return $content;
 			}
 		}
 
-		// Helper function to get content before a shortcode
-		function get_code_shortcode_content($content, $shortcode)
-		{
-			$pattern = get_shortcode_regex(array($shortcode));
-			preg_match("/$pattern/", $content, $matches);
+		// Helper function to get content before the opening tag of a shortcode
+		function get_code_shortcode_content($content, $shortcode) {
+		    $pattern = get_shortcode_regex(array($shortcode));
+		    preg_match("/$pattern/", $content, $matches);
 
-			if (isset($matches[1])) {
-				return $matches[1];
-			}
+		    if (isset($matches[0])) {
+		        // Find the position of the opening tag in the content
+		        $tag_start = strpos($content, $matches[0]);
 
-			return $content;
+		        if ($tag_start !== false) {
+		            // Return the content before the opening tag
+		            return substr($content, 0, $tag_start);
+		        }
+		    }
+
+		    // Return the original content if the shortcode is not found
+		    return $content;
 		}
 
 		// Hook the custom content display function into the_content filter

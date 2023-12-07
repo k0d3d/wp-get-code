@@ -43,3 +43,29 @@ function save_purchase_record($data) {
   // Return the ID of the inserted record
   return $wpdb->insert_id;
 }
+
+
+function has_user_purchased($post_id)
+	{
+		global $wpdb;
+
+		// Replace 'your_table_name' with the actual table name
+		$table_name = $wpdb->prefix . GET_CODE_TABLE_NAME_USER_PURCHASES;
+
+		// Get the current user ID
+		$user_id = get_current_user_id();
+
+		// Prepare and execute the SQL query
+		$query = $wpdb->prepare(
+			"SELECT COUNT(id) FROM $table_name WHERE user_id = %d AND post_id = %d",
+			array(
+				$user_id,
+				$post_id
+			)
+		);
+
+		$purchase_count = $wpdb->get_var($query);
+
+		// Check if the user has made any purchases
+		return $purchase_count > 0;
+	}
