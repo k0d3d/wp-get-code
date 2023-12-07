@@ -1,21 +1,29 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef } from 'react';
 import code from '@code-wallet/elements';
 import { handlePurchase } from '../common/fetch';
 
-type TCodeButton = {
-  destination: string
-  amount: number
+
+if (process.env.NODE_ENV != "production") {
+  window['GetCodeAppVars'] = {
+    "nonce": "644744b619",
+    "user_id": "0",
+    "ajax_url": "https://localhost:8898/wp-admin/admin-ajax.php",
+    "post_id": "417",
+    "destination": "E8otxw1CVX9bfyddKu3ZB3BVLa4VVF9J7CTPdnUwT9jR",
+    "default_amount": 0.4
+  };
 }
 
-function CodeButton({ destination, amount }: TCodeButton) {
+function CodeButton() {
   const el = useRef<HTMLDivElement>(null);
-  console.log(destination, amount)
+
   useEffect(() => {
     const { button } = code.elements.create('button', {
       currency: 'usd',
-      destination: destination,
-      amount: 0.5,
+      destination:  window['GetCodeAppVars'].destination,
+      amount:  window['GetCodeAppVars'].default_amount,
     });
 
     if (!button) return
@@ -27,7 +35,7 @@ function CodeButton({ destination, amount }: TCodeButton) {
 
     button.mount(el.current!);
 
-  }, [amount, destination]);
+  }, []);
 
   return (
     <>
