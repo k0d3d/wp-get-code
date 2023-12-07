@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import code from '@code-wallet/elements';
 import { handlePurchase } from '../common/fetch';
 
-
+console.log(process.env.NODE_ENV)
 if (process.env.NODE_ENV != "production") {
   window['GetCodeAppVars'] = {
     "nonce": "644744b619",
@@ -20,6 +20,7 @@ function CodeButton() {
   const el = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    console.log(window['GetCodeAppVars'])
     const { button } = code.elements.create('button', {
       currency: 'usd',
       destination:  window['GetCodeAppVars'].destination,
