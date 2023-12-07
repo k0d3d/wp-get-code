@@ -39,7 +39,7 @@ defined('ABSPATH') || exit;
                     <option <?php echo $selected_value == "0.25" ? 'selected' : '' ?> value="0.25">0.25</option>
                     <option <?php echo $selected_value == "0.50" ? 'selected' : '' ?> value="0.50">0.50</option>
                     <option <?php echo $selected_value == "0.75" ? 'selected' : '' ?> value="0.75">0.75</option>
-                    <option <?php echo $selected_value == "0.1" ? 'selected' : '' ?> value="1">1</option>
+                    <option <?php echo $selected_value == "1" ? 'selected' : '' ?> value="1">1</option>
                   </select>
                 </div>
               </div>
