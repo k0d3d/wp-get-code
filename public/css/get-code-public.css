@@ -2,3 +2,50 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+
+ .get_code_opt_default_paywall_message {
+  width: 90%;
+  max-width: 490px;
+  margin: 0 auto;
+ }
+
+ .get_code_default_message_container {
+  display: flex;
+  justify-content: center;
+  max-width: 24rem;
+  flex-direction: column;
+  margin: 0 auto;
+  border-radius: 10px;
+ 	box-shadow: 0 1px 8px 4px #44444424;
+  padding: 15px 0;
+ }
+
+ .get_code_default_message_container  p {
+ 	text-align: center;
+ }
+
+.get_code_opt_default_paywall_message .help-tip {
+  line-height: 1.25rem;
+  margin-top: 2em;
+  font-size: 0.75rem;
+  color: rgb(75 85 99);
+  text-align: center;
+}
+
+#get-code-button-container {
+	  width: max-content;
+	  margin: 0 auto;
+}
+
+.get_code-box {
+  padding-top: 2.5rem;
+  position: relative;
+  top: -5em;
+}
+
+.element-with-fade-out {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+  height: 4em;
+  margin-top: -5rem;
+}

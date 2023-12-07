@@ -136,16 +136,16 @@ class Get_Code_Public
 			$html_attr .= "data-default-amount='$amount'";
 		}
 
-		if (get_option("get_code_opt_default_paywall_message")) {
+		if (!empty(get_option("get_code_opt_default_paywall_message"))) {
 			$custom_text = get_option("get_code_opt_default_paywall_message");
-			$custom_text = '<div class="get_code_opt_default_paywall_message">' . $custom_text . '<div id="get-code-button-container" ' . $html_attr . ' ></div></div>';
+			$custom_text = '<div class="element-with-fade-out"></div><div class="get_code_opt_default_paywall_message">' . $custom_text . '<div id="get-code-button-container" ' . $html_attr . ' ></div></div>';
 		} else {
 			$hidden_content_text = __('Purchase this item to view this hidden content', 'restricted-content-based-on-purchase');
-			$custom_text = '<div class="get_code_opt_default_paywall_message">
+			$custom_text = '<div class="element-with-fade-out"></div><div class="get_code_opt_default_paywall_message">
 				<div class="get_code_default_message_container">
 					<p>
 					Unlock the rest of this article
-					for '.$amount.'
+					for $'.$amount.'
 					</p>
 					<div id="get-code-button-container" ' . $html_attr . ' ></div>
 					<p>
@@ -169,8 +169,8 @@ class Get_Code_Public
 
 		$current_user = wp_get_current_user();
 
-		$merchant_address = !empty($atts['merchant_address']) ? $atts['merchant_address'] : null;
-		$amount = !empty($atts['amount']) ? $atts['amount'] : null;
+		$merchant_address = !empty(get_option('get_code_opt_default_merchant_address') ) ? get_option('get_code_opt_default_merchant_address') : null;
+		$amount = !empty(get_option('get_code_opt_default_amount')) ? get_option('get_code_opt_default_amount') : null;
 
 		if (current_user_can('administrator') || has_user_purchased($post->ID)) {
 
