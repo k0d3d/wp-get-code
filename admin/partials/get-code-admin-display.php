@@ -34,11 +34,12 @@ defined('ABSPATH') || exit;
                 </div>
                 <div class="form-group">
                   <label class="form-label">Default Amount</label>
-                  <select class="form-control" type="text" name="get_code_opt_default_amount" value="<?php echo esc_attr(get_option('get_code_opt_default_amount')); ?>">
-                    <option selected value="0.25">0.25</option>
-                    <option value="0.50">0.50</option>
-                    <option value="0.75">0.75</option>
-                    <option value="1">1</option>
+                  <select class="form-control" type="text" name="get_code_opt_default_amount" >
+                    <?php $selected_value = get_option('get_code_opt_default_amount'); ?>
+                    <option <?php echo $selected_value == "0.25" ? 'selected' : '' ?> value="0.25">0.25</option>
+                    <option <?php echo $selected_value == "0.50" ? 'selected' : '' ?> value="0.50">0.50</option>
+                    <option <?php echo $selected_value == "0.75" ? 'selected' : '' ?> value="0.75">0.75</option>
+                    <option <?php echo $selected_value == "0.1" ? 'selected' : '' ?> value="1">1</option>
                   </select>
                 </div>
               </div>
