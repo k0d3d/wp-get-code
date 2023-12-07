@@ -34,16 +34,12 @@ defined('ABSPATH') || exit;
                 </div>
                 <div class="form-group">
                   <label class="form-label">Default Amount</label>
-                  <input class="form-control" type="text" name="get_code_opt_default_amount" value="<?php echo esc_attr(get_option('get_code_opt_default_amount')); ?>" />
-                </div>
-              </div>
-              <div class="form-table">
-                <h4>Content Paywall</h4>
-                <div class="form-group">
-                  <label class="form-label">Default Message</label>
-                  <textarea class="form-control" name="get_code_opt_default_paywall_message" >
-                  <?php echo esc_attr(get_option('get_code_opt_default_paywall_message')); ?>
-                  </textarea>
+                  <select class="form-control" type="text" name="get_code_opt_default_amount" value="<?php echo esc_attr(get_option('get_code_opt_default_amount')); ?>">
+                    <option selected value="0.25">0.25</option>
+                    <option value="0.50">0.50</option>
+                    <option value="0.75">0.75</option>
+                    <option value="1">1</option>
+                  </select>
                 </div>
               </div>
               <?php wp_nonce_field(GET_CODE_NONCE, 'custom_options_nonce'); ?>
