@@ -12,7 +12,7 @@ if (process.env.NODE_ENV != "production") {
     "ajax_url": "https://localhost:8898/wp-admin/admin-ajax.php",
     "post_id": "417",
     "destination": "E8otxw1CVX9bfyddKu3ZB3BVLa4VVF9J7CTPdnUwT9jR",
-    "default_amount": 0.4
+    "default_amount": "0.4"
   };
 }
 
@@ -24,7 +24,7 @@ function CodeButton() {
     const { button } = code.elements.create('button', {
       currency: 'usd',
       destination:  window['GetCodeAppVars'].destination,
-      amount:  window['GetCodeAppVars'].default_amount,
+      amount:  parseFloat(window['GetCodeAppVars'].default_amount || 0),
     });
 
     if (!button) return
