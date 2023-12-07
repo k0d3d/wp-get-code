@@ -56,6 +56,7 @@ class Get_Code_Public
 
 		$this->init_shortcodes();
 		$this->init_ajax_complete_user_post_purchase();
+		$this->init_filter_the_content_for_shortcode();
 	}
 
 	/**
@@ -106,7 +107,7 @@ class Get_Code_Public
 
 
 		// Localize script with additional data
-		$current_post = get_post(); 
+		$current_post = get_post();
 		if (empty($current_post)) return;
 		wp_localize_script($this->plugin_name . '-js-app', 'GetCodeAppVars', array(
 			'nonce' => wp_create_nonce(GET_CODE_NONCE),
@@ -127,20 +128,20 @@ class Get_Code_Public
 
 		$html_attr = '';
 
-		if(!empty($merchant_address)) {
-			$html_attr .= "data-merchant-address='$merchant_address'" ;
+		if (!empty($merchant_address)) {
+			$html_attr .= "data-merchant-address='$merchant_address'";
 		}
 
-		if(!empty($amount)) {
-			$html_attr .= "data-default-amount='$amount'" ;
+		if (!empty($amount)) {
+			$html_attr .= "data-default-amount='$amount'";
 		}
 
 		if (get_option("get_code_opt_default_paywall_message")) {
 			$custom_text = get_option("get_code_opt_default_paywall_message");
-			$custom_text = '<div class="get_code_opt_default_paywall_message">' . $custom_text . '<div id="get-code-button-container" '. $html_attr .' ></div></div>';
+			$custom_text = '<div class="get_code_opt_default_paywall_message">' . $custom_text . '<div id="get-code-button-container" ' . $html_attr . ' ></div></div>';
 		} else {
 			$hidden_content_text = __('Purchase this item to view this hidden content', 'restricted-content-based-on-purchase');
-			$custom_text = '<div class="get_code_opt_default_paywall_message"><p>' . $hidden_content_text . '</p><div id="get-code-button-container" '. $html_attr .' ></div></div>';
+			$custom_text = '<div class="get_code_opt_default_paywall_message"><p>' . $hidden_content_text . '</p><div id="get-code-button-container" ' . $html_attr . ' ></div></div>';
 		}
 		return $custom_text;
 	}
@@ -160,7 +161,6 @@ class Get_Code_Public
 
 		if (current_user_can('administrator') || $this->has_user_purchased($post->ID)) {
 
-			// // if the selected product id for the snippet option is different from the product id in the shortcode
 			if (!is_null($content)) {
 				// protects output via content variable
 				$output .= apply_filters('the_content', $content);
@@ -213,7 +213,7 @@ class Get_Code_Public
 
 	private function init_ajax_complete_user_post_purchase()
 	{
-		add_action('wp_ajax_get_code_save_purchase', [ $this, 'save_purchase_ajax']);
+		add_action('wp_ajax_get_code_save_purchase', [$this, 'save_purchase_ajax']);
 	}
 
 	// Callback function for the AJAX endpoint
@@ -248,5 +248,42 @@ class Get_Code_Public
 
 		// Always exit to avoid extra output
 		wp_die();
+	}
+
+	public function init_filter_the_content_for_shortcode()
+	{
+
+		function get_code_content_display()
+		{
+			global $post;
+
+			// Check if the current post content contains the shortcode [get_code_wall]
+			if (is_a($post, 'WP_Post') && has_shortcode($post->post_content, 'get_code_wall')) {
+				// Get the content before the shortcode
+				$content_before_shortcode = get_code_shortcode_content($post->post_content, 'get_code_wall');
+
+				// Display only the content before the shortcode
+				echo apply_filters('the_content', $content_before_shortcode);
+			} else {
+				// Display the entire content
+				the_content();
+			}
+		}
+
+		// Helper function to get content before a shortcode
+		function get_code_shortcode_content($content, $shortcode)
+		{
+			$pattern = get_shortcode_regex(array($shortcode));
+			preg_match("/$pattern/", $content, $matches);
+
+			if (isset($matches[1])) {
+				return $matches[1];
+			}
+
+			return $content;
+		}
+
+		// Hook the custom content display function into the_content filter
+		add_filter('the_content', 'get_code_content_display');
 	}
 }
