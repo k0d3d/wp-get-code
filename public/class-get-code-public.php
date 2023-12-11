@@ -59,6 +59,7 @@ class Get_Code_Public
 
 		$this->init_shortcodes();
 		$this->init_ajax_complete_user_post_purchase();
+		$this->init_ajax_save_user_post_purchase();
 		$this->init_webhook_on_verify_purchase();
 		$this->init_filter_the_content_for_shortcode();
 	}
@@ -263,6 +264,37 @@ class Get_Code_Public
 
 	private function init_ajax_complete_user_post_purchase()
 	{
+		add_action('wp_ajax_get_code_complete_purchase', [$this, 'save_complete_ajax']);
+	}
+
+	public function save_complete_ajax()
+	{
+		global $wpdb;
+		// Verify the nonce for security
+		check_ajax_referer(GET_CODE_NONCE, 'nonce');
+
+		$data = array(
+			'tx_intent'    => !empty($_POST['tx_intent']) ? sanitize_text_field($_POST['tx_intent']) : null,
+		);
+
+		$table_name = $wpdb->prefix . GET_CODE_TABLE_NAME_USER_PURCHASES;
+
+		// verification logic here...
+		// @todo: verify the status 
+		// $status = PaymentIntents::getStatus($tx_intent); 
+	
+		// Check if a record with the given $tx_intent exists
+		$result = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE tx_intent = %s", $data['tx_intent'])); // @todo: add tx_status=submitted 
+		if (empty($result)) {
+			wp_send_json_success('');
+		}
+		$post_id = $result['post_id'];
+		$post_content = apply_filters( 'the_content', get_post_field( 'post_content', $post_id ) );
+		wp_send_json_success($post_content);
+	}
+
+	private function init_ajax_save_user_post_purchase()
+	{
 		add_action('wp_ajax_get_code_save_purchase', [$this, 'save_purchase_ajax']);
 	}
 
@@ -283,13 +315,14 @@ class Get_Code_Public
 			'code_tx_id' => '',
 		);
 
-		wp_send_json_error($data);
-
-		$response = PaymentIntents::create([
+		$intent_data = [
 			'destination' => $data['destination'],
 			'amount' => $data['amount'],
 			'currency' => $data['currency'],
-		]);
+		];
+		// wp_send_json_error($data);
+
+		$response = PaymentIntents::create($intent_data);
 
 		$intentId = $response['id'];
 		// After some time, you can verify the status of the intent
@@ -297,7 +330,8 @@ class Get_Code_Public
 
 
 		$data['tx_intent'] = $intentId;
-		$data['status'] = $status['status'];
+		$data['status'] = 'SUBMITTED'; // @todo: remove this  
+		// $data['status'] = $status['status']; 
 
 		// Perform the purchase record save
 		$record_id = save_purchase_record($data);

@@ -1,16 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { getCodeApp } from "../getCodeApp";
 
-export const handlePurchase = async () => {
+export const handlePurchase = async (intent) => {
   // Example data
   const data = {
-    action: 'get_code_save_purchase',
+    action: 'get_code_complete_purchase',
     nonce: getCodeApp.nonce, 
-    user_id: getCodeApp.user_id,
-    post_url: location.pathname,
-    post_id: getCodeApp.post_id,
-    code_tx_id: 'xyz789',
-    tx_intent: 'purchase',
+    tx_intent: intent || 'purchase',
   };
 
   try {
@@ -23,12 +19,12 @@ export const handlePurchase = async () => {
       },
     });
 
-    const responseData = await response.json();
+    const responseData = await response.text();
 
-    if (response.ok && responseData.success) {
-      return `Record inserted with ID: ${responseData.data.record_id}`;
+    if (response.ok && responseData) {
+      return responseData
     } else {
-      return `Error: ${responseData.data.message}`;
+      return ``;
     }
   } catch (error) {
     return `AJAX error: ${error}`;
@@ -63,7 +59,7 @@ export const invokeIntent = async ({
     });
 
     const responseData = await response.json();
-    return responseData
+    return responseData.data
 
   } catch (error) {
     return `AJAX error: ${error}`;
