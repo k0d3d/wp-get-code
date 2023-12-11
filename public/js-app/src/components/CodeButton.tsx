@@ -18,24 +18,28 @@ if (process.env.NODE_ENV != "production") {
 function adjustHeight(contentHtml) {
   const getCodeDiv = document.querySelector<HTMLElement>('.get_code-box');
   const contentDiv = document.querySelector<HTMLElement>('.content');
+  const contentTitleDiv = document.querySelector<HTMLElement>('.content > .entry-title');
+  const pDiv = document.querySelector<HTMLElement>('.content > p');
+
   if (!getCodeDiv || !contentDiv) return
   // Get the current height of the div
   const currentHeight = contentDiv.offsetHeight;
-
+  
   // Allow the browser to recalculate styles before setting the new height
   window.getComputedStyle(contentDiv).height;
-
+  
+  
+  pDiv && pDiv.remove();
+  // Check if the event property matches the animated property ('height') and the target element
+  contentTitleDiv && contentTitleDiv.insertAdjacentHTML( "afterend", contentHtml );
+  contentDiv.style.height = currentHeight + "px";
+  
   getCodeDiv.classList.add('slide-down-fade-out')
 
+  // Set the new height based on the updated content
   // Listen for the transitionend event
-  getCodeDiv.addEventListener('transitionend', function (event) {
-    // Check if the event property matches the animated property ('height') and the target element
-    if (event.propertyName === 'height' && event.target === getCodeDiv) {
-      // Animation is complete, call your function here
-      contentDiv.innerHTML = contentHtml
-      // Set the new height based on the updated content
-      contentDiv.style.height = currentHeight + "px";
-    }
+  getCodeDiv.addEventListener('transitionend', function () {
+
   });
 }
 
@@ -63,7 +67,7 @@ function CodeButton() {
 
     button.on('cancel', async (e) => {
       console.log(e)
-      const content = await handlePurchase(e.target.value)
+      const content = await handlePurchase(e.options.clientSecret)
       if (content && content != '') {
         adjustHeight(content)
       }
@@ -71,8 +75,7 @@ function CodeButton() {
     })
 
     button.on('success', async (e) => {
-      console.log(e)
-      const content = await handlePurchase(e.target.value)
+      const content = await handlePurchase(e.options.clientSecret)
       if (content && content != '') {
         adjustHeight(content)
       }

@@ -19,7 +19,7 @@ export const handlePurchase = async (intent) => {
       },
     });
 
-    const responseData = await response.text();
+    const responseData =  await response.text();
 
     if (response.ok && responseData) {
       return responseData

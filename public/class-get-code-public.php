@@ -285,12 +285,20 @@ class Get_Code_Public
 	
 		// Check if a record with the given $tx_intent exists
 		$result = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE tx_intent = %s", $data['tx_intent'])); // @todo: add tx_status=submitted 
+
 		if (empty($result)) {
 			wp_send_json_success('');
 		}
-		$post_id = $result['post_id'];
-		$post_content = apply_filters( 'the_content', get_post_field( 'post_content', $post_id ) );
-		wp_send_json_success($post_content);
+
+		$post_id = $result->post_id;
+
+
+		$text = replace_shortcode_in_string(get_the_content(null, null, $post_id), 'get_code_wall', "");
+
+		wp_send_json_success(
+			apply_filters( 'the_content', $text )
+			// $text
+		);
 	}
 
 	private function init_ajax_save_user_post_purchase()

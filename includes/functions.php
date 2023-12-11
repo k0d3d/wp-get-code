@@ -124,3 +124,13 @@ function verify_purchase_callback($data)
 
   return rest_ensure_response($response);
 }
+
+
+function replace_shortcode_in_string($content, $shortcode_to_replace, $replacement) {
+  $pattern = get_shortcode_regex(array($shortcode_to_replace));
+  $content = preg_replace_callback("/$pattern/", function ($matches) use ($replacement) {
+      return str_replace($matches[0], $replacement, $matches[0]);
+  }, $content);
+
+  return $content;
+}
