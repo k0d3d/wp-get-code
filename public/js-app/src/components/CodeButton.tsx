@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef } from 'react';
 import code from '@code-wallet/elements';
-import { handlePurchase } from '../common/fetch';
+import { invokeIntent } from '../common/fetch';
 
 if (process.env.NODE_ENV != "production") {
   window['GetCodeAppVars'] = {
@@ -21,17 +21,31 @@ function CodeButton() {
   useEffect(() => {
     
     const { button } = code.elements.create('button', {
-      currency: 'usd',
+      currency: 'usd', // @todo: get currency from WC or from GC Settings
       destination:  window['GetCodeAppVars'].destination,
       amount:  parseFloat(window['GetCodeAppVars'].default_amount || 0),
+      confirmParams: {
+        success: {
+          url: '/wp-json/get_code_app/verify?tx_intent={{INTENT_ID}}&nonce=' + window['GetCodeAppVars']?.nonce,
+        },
+        cancel: {
+          url: '/wp-json/get_code_app/verify?tx_intent={{INTENT_ID}}&nonce=' + window['GetCodeAppVars']?.nonce
+        }
+      }
     });
 
     if (!button) return
 
-    button.on('success', async () => {
-      await handlePurchase()
-      location.reload()
-    });
+    button.on('invoke', async () => {
+
+      const { clientSecret } = await invokeIntent({
+        currency: 'usd',
+        destination:  window['GetCodeAppVars'].destination,
+        amount:  parseFloat(window['GetCodeAppVars'].default_amount || 0),
+      });
+
+      button.update({ clientSecret });
+    })
 
     button.mount(el.current!);
 

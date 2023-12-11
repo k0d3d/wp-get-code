@@ -56,6 +56,7 @@ class Get_Code_Public
 
 		$this->init_shortcodes();
 		$this->init_ajax_complete_user_post_purchase();
+		$this->init_webhook_on_verify_purchase();
 		$this->init_filter_the_content_for_shortcode();
 	}
 
@@ -145,7 +146,7 @@ class Get_Code_Public
 				<div class="get_code_default_message_container">
 					<p>
 					Unlock the rest of this article
-					for $'.$amount.'
+					for $' . $amount . '
 					</p>
 					<div id="get-code-button-container" ' . $html_attr . ' ></div>
 					<p>
@@ -169,7 +170,7 @@ class Get_Code_Public
 
 		$current_user = wp_get_current_user();
 
-		$merchant_address = !empty(get_option('get_code_opt_default_merchant_address') ) ? get_option('get_code_opt_default_merchant_address') : null;
+		$merchant_address = !empty(get_option('get_code_opt_default_merchant_address')) ? get_option('get_code_opt_default_merchant_address') : null;
 		$amount = !empty(get_option('get_code_opt_default_amount')) ? get_option('get_code_opt_default_amount') : null;
 
 		if (current_user_can('administrator') || has_user_purchased($post->ID)) {
@@ -200,6 +201,51 @@ class Get_Code_Public
 	}
 
 	// public 
+	public function init_webhook_on_verify_purchase()
+	{
+		function register_verify_purchase_route()
+		{
+			// creates webhook/ api route to verify purchase 
+			register_rest_route(
+				GET_CODE_NAMESPACE . '/v1',
+				'/verify-purchase/',
+				array(
+					'methods'  => 'GET',
+					'callback' => 'verify_purchase_callback',
+					'args'     => array(
+						'nonce'     => array(
+							'required'    => false,
+							'validate_callback' => 'sanitize_text_field',
+						),
+						'tx_intent' => array(
+							'required'    => true,
+							'validate_callback' => 'sanitize_text_field',
+						),
+					),
+				)
+			);
+			// create a api route to cancel purchase
+			register_rest_route(
+				GET_CODE_NAMESPACE . '/v1',
+				'/cancel-purchase/',
+				array(
+					'methods'  => 'GET',
+					'callback' => 'verify_purchase_callback',
+					'args'     => array(
+						'nonce'     => array(
+							'required'    => false,
+							'validate_callback' => 'sanitize_text_field',
+						),
+						'tx_intent' => array(
+							'required'    => true,
+							'validate_callback' => 'sanitize_text_field',
+						),
+					),
+				)
+			);
+		}
+		add_action('rest_api_init', 'register_verify_purchase_route');
+	}
 
 	private function init_ajax_complete_user_post_purchase()
 	{
@@ -207,7 +253,7 @@ class Get_Code_Public
 	}
 
 	// Callback function for the AJAX endpoint
-	function save_purchase_ajax()
+	public function save_purchase_ajax()
 	{
 		// Verify the nonce for security
 		check_ajax_referer(GET_CODE_NONCE, 'nonce');
@@ -215,22 +261,34 @@ class Get_Code_Public
 		// Validate and sanitize input data
 		$data = array(
 			'user_id'    => !empty($_POST['user_id']) ? absint($_POST['user_id']) : '',
-			'post_url'   => !empty($_POST['post_url']) ? esc_url_raw($_POST['post_url']) : '',
-			'post_id'    => !empty($_POST['post_id']) ? sanitize_text_field($_POST['post_id']) : '',
-			'code_tx_id' => !empty($_POST['code_tx_id']) ? sanitize_text_field($_POST['code_tx_id']) : '',
-			'tx_intent'  => !empty($_POST['tx_intent']) ? sanitize_text_field($_POST['tx_intent']) : '',
-			'tx_status'  => !empty($_POST['tx_status']) ? sanitize_text_field($_POST['tx_status']) : '',
+			'amount'    => !empty($_POST['amount']) ? absint($_POST['amount']) : 0,
+			'currency'    => !empty($_POST['currency']) ? absint($_POST['currency']) : 'usd',
+			'destination'    => !empty($_POST['destination']) ? absint($_POST['destination']) : '',
+			'post_url'   => !empty($_POST['post_url']) ? esc_url_raw($_POST['post_url']) : null,
+			'post_id'    => !empty($_POST['post_id']) ? sanitize_text_field($_POST['post_id']) : null,
+			'code_tx_id' => '',
 		);
 
+		$response = PaymentIntents::create([
+			'destination' => $data['destination'],
+			'amount' => $data['amount'],
+			'currency' => $data['currency'],
+		]);
 
-		// Additional data validation if needed
+		$intentId = $response['id'];
+		// After some time, you can verify the status of the intent
+		$status = PaymentIntents::getStatus($intentId);
+
+
+		$data['tx_intent'] = $intentId;
+		$data['status'] = $status;
 
 		// Perform the purchase record save
 		$record_id = save_purchase_record($data);
 
 		if ($record_id) {
 			// Return a success response with the inserted record ID
-			wp_send_json_success(array('record_id' => $record_id));
+			wp_send_json_success(array('record_id' => $record_id, 'status' => $status, 'clientSecret' => $intentId));
 		} else {
 			// Return an error response
 			wp_send_json_error(array('message' => 'Failed to insert record.'));
@@ -262,22 +320,23 @@ class Get_Code_Public
 		}
 
 		// Helper function to get content before the opening tag of a shortcode
-		function get_code_shortcode_content($content, $shortcode) {
-		    $pattern = get_shortcode_regex(array($shortcode));
-		    preg_match("/$pattern/", $content, $matches);
+		function get_code_shortcode_content($content, $shortcode)
+		{
+			$pattern = get_shortcode_regex(array($shortcode));
+			preg_match("/$pattern/", $content, $matches);
 
-		    if (isset($matches[0])) {
-		        // Find the position of the opening tag in the content
-		        $tag_start = strpos($content, $matches[0]);
+			if (isset($matches[0])) {
+				// Find the position of the opening tag in the content
+				$tag_start = strpos($content, $matches[0]);
 
-		        if ($tag_start !== false) {
-		            // Return the content before the opening tag
-		            return substr($content, 0, $tag_start);
-		        }
-		    }
+				if ($tag_start !== false) {
+					// Return the content before the opening tag
+					return substr($content, 0, $tag_start);
+				}
+			}
 
-		    // Return the original content if the shortcode is not found
-		    return $content;
+			// Return the original content if the shortcode is not found
+			return $content;
 		}
 
 		// Hook the custom content display function into the_content filter

@@ -29,11 +29,11 @@ defined('ABSPATH') || exit;
               <div class="form-table">
                 <h4>Checkout</h4>
                 <div class="form-group">
-                  <label class="form-label">Merchant Address</label>
+                  <label class="form-label">Code Deposit Address</label>
                   <input class="form-control" type="text" name="get_code_opt_default_merchant_address" value="<?php echo esc_attr(get_option('get_code_opt_default_merchant_address')); ?>" />
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Default Amount</label>
+                  <label class="form-label">How much do you wanna charge?</label>
                   <select class="form-control" type="text" name="get_code_opt_default_amount" >
                     <?php $selected_value = get_option('get_code_opt_default_amount'); ?>
                     <option <?php echo $selected_value == "0.25" ? 'selected' : '' ?> value="0.25">0.25</option>

@@ -50,10 +50,12 @@ function create_user_purchase_table()
 	$sql = "CREATE TABLE $table_name (
 		id mediumint(9) NOT NULL AUTO_INCREMENT,
 		user_id mediumint(9) NOT NULL,
+		amount DECIMAL(10,2) NOT NULL,
 		post_url VARCHAR(255) DEFAULT NULL,
 		post_id mediumint(9) DEFAULT NULL,
 		code_tx_id VARCHAR(100) DEFAULT NULL,
 		tx_intent VARCHAR(100) DEFAULT NULL,
+		currency VARCHAR(5) DEFAULT NULL,
 		tx_status VARCHAR(20) DEFAULT NULL,
 		created_at datetime NOT NULL,
 		PRIMARY KEY  (id)
