@@ -19,6 +19,7 @@
   border-radius: 10px;
  	box-shadow: 0 1px 8px 4px #44444424;
   padding: 45px 0;
+  align-items: center;
  }
 
  .get_code_default_message_container  p {

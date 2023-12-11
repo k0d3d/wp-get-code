@@ -137,6 +137,14 @@ class Get_Code_Public
 			$html_attr .= "data-default-amount='$amount'";
 		}
 
+		if (!is_user_logged_in()) {
+			echo '<div class="element-with-fade-out"></div>
+				<div class="get_code_opt_default_paywall_message">
+					You need to <a href="' . esc_url(wp_login_url()) . '">login</a> to purchase with Code
+				</div>';
+			return;
+	}
+
 		if (!empty(get_option("get_code_opt_default_paywall_message"))) {
 			$custom_text = get_option("get_code_opt_default_paywall_message");
 			$custom_text = '<div class="element-with-fade-out"></div><div class="get_code_opt_default_paywall_message">' . $custom_text . '<div id="get-code-button-container" ' . $html_attr . ' ></div></div>';
@@ -177,6 +185,8 @@ class Get_Code_Public
 
 			if (!is_null($content)) {
 				// protects output via content variable
+				// it should be empty as nothing is passed 
+				// between the shortcode tags. eg . [get_code_wall]
 				$output .= apply_filters('the_content', $content);
 			}
 		} else {

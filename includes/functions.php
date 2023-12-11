@@ -1,6 +1,6 @@
 <?php
 
-require 'vendor/autoload.php';
+require GET_CODE_APP_PATH. '/vendor/autoload.php';
 
 use CodeWallet\Client\PaymentIntents;
 
