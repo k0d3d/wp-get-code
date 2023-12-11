@@ -66,7 +66,7 @@ function has_user_purchased($post_id)
 
   // Prepare and execute the SQL query
   $query = $wpdb->prepare(
-    "SELECT COUNT(id) FROM $table_name WHERE user_id = %d AND post_id = %d",
+    "SELECT COUNT(id) FROM $table_name WHERE user_id = %d AND post_id = %d AND status = 'SUBMITTED'",
     array(
       $user_id,
       $post_id

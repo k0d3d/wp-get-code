@@ -1,5 +1,8 @@
 <?php
 
+use CodeWallet\Client\PaymentIntents;
+
+
 /**
  * The public-facing functionality of the plugin.
  *
@@ -124,7 +127,7 @@ class Get_Code_Public
 	/**
 	 * Displaying the custom text
 	 */
-	private function get_code_display_custom_text($merchant_address, $amount)
+	private function get_code_display_custom_container($merchant_address, $amount)
 	{
 
 		$html_attr = '';
@@ -138,13 +141,13 @@ class Get_Code_Public
 		}
 
 		if (!is_user_logged_in()) {
-			$current_url = home_url( add_query_arg( [], $GLOBALS['wp']->request ) );
+			$current_url = home_url(add_query_arg([], $GLOBALS['wp']->request));
 			echo '<div class="element-with-fade-out"></div>
 				<div class="get_code_opt_default_paywall_message">
 					You need to <a href="' . esc_url(wp_login_url($current_url)) . '">login</a> to purchase with Code
 				</div>';
 			return;
-	}
+		}
 
 		if (!empty(get_option("get_code_opt_default_paywall_message"))) {
 			$custom_text = get_option("get_code_opt_default_paywall_message");
@@ -175,7 +178,6 @@ class Get_Code_Public
 		$atts = array_change_key_case((array) $atts, CASE_LOWER);
 
 		$output = '';
-		$output .= '<div class="get_code-box">';
 
 		$current_user = wp_get_current_user();
 
@@ -191,12 +193,13 @@ class Get_Code_Public
 				$output .= apply_filters('the_content', $content);
 			}
 		} else {
+			$output .= '<div class="get_code-box">';
 			// if user has not purchased product & is not admin
-			$custom_text = $this->get_code_display_custom_text($merchant_address, $amount);
+			$custom_text = $this->get_code_display_custom_container($merchant_address, $amount);
 			$output .= $custom_text;
+			$output .= '</div>';
 		}
 
-		$output .= '</div>';
 
 		return $output;
 	}
@@ -272,13 +275,15 @@ class Get_Code_Public
 		// Validate and sanitize input data
 		$data = array(
 			'user_id'    => !empty($_POST['user_id']) ? absint($_POST['user_id']) : '',
-			'amount'    => !empty($_POST['amount']) ? absint($_POST['amount']) : 0,
-			'currency'    => !empty($_POST['currency']) ? absint($_POST['currency']) : 'usd',
-			'destination'    => !empty($_POST['destination']) ? absint($_POST['destination']) : '',
+			'amount'    => !empty($_POST['amount']) && is_numeric($_POST['amount']) ? (float) sanitize_text_field($_POST['amount']) : 0,
+			'currency'    => !empty($_POST['currency']) ? sanitize_text_field($_POST['currency']) : 'usd',
+			'destination'    => !empty($_POST['destination']) ? sanitize_text_field($_POST['destination']) : '',
 			'post_url'   => !empty($_POST['post_url']) ? esc_url_raw($_POST['post_url']) : null,
-			'post_id'    => !empty($_POST['post_id']) ? sanitize_text_field($_POST['post_id']) : null,
+			'post_id'    => !empty($_POST['post_id']) ? absint($_POST['post_id']) : null,
 			'code_tx_id' => '',
 		);
+
+		wp_send_json_error($data);
 
 		$response = PaymentIntents::create([
 			'destination' => $data['destination'],
@@ -292,7 +297,7 @@ class Get_Code_Public
 
 
 		$data['tx_intent'] = $intentId;
-		$data['status'] = $status;
+		$data['status'] = $status['status'];
 
 		// Perform the purchase record save
 		$record_id = save_purchase_record($data);
@@ -311,27 +316,32 @@ class Get_Code_Public
 
 	public function init_filter_the_content_for_shortcode()
 	{
-
-		function get_code_content_display($content)
+		// This function will return the output to be displayed.
+		// it performs a check if the post contains a shortcode.
+		function get_code_content_display($content, $post_id)
 		{
+			if (is_singular() && in_the_loop() && is_main_query()) {
 
-			// Check if the current post content contains the shortcode [get_code_wall]
-			if (has_shortcode($content, 'get_code_wall')) {
+				// Check if the current post content contains the shortcode [get_code_wall]
+				if (has_shortcode($content, 'get_code_wall')) {
 
-				// Get the content before the shortcode
-				$content_before_shortcode = get_code_shortcode_content($content, 'get_code_wall');
-				$content_before_shortcode .= do_shortcode('[get_code_wall]');
-				// Display only the content before the shortcode
-				return apply_filters('the_content', $content_before_shortcode);
-				// return 
-			} else {
-				// Display the entire content
-				return $content;
+					// Get the content before the shortcode
+					$content_before_shortcode = get_code_shortcode_content($content, 'get_code_wall', $post_id);
+					$content_before_shortcode .= do_shortcode('[get_code_wall]');
+					// Display only the content before the shortcode
+					return $content_before_shortcode;
+					// return 
+				} else {
+					// Display the entire content
+					return $content;
+				}
 			}
 		}
 
-		// Helper function to get content before the opening tag of a shortcode
-		function get_code_shortcode_content($content, $shortcode)
+		// Helper function to get content before the opening tag of a 
+		// shortcode if the user has not purchased the post.
+		// this function will return the whole post if the user has purchased the post. 
+		function get_code_shortcode_content($content, $shortcode, $post_id)
 		{
 			$pattern = get_shortcode_regex(array($shortcode));
 			preg_match("/$pattern/", $content, $matches);
@@ -341,6 +351,10 @@ class Get_Code_Public
 				$tag_start = strpos($content, $matches[0]);
 
 				if ($tag_start !== false) {
+					// check if the user has purchased still
+					if (has_user_purchased($post_id)) {
+						return $content;
+					}
 					// Return the content before the opening tag
 					return substr($content, 0, $tag_start);
 				}
@@ -351,6 +365,10 @@ class Get_Code_Public
 		}
 
 		// Hook the custom content display function into the_content filter
-		add_filter('the_content', 'get_code_content_display');
+
+		add_filter('the_content', function ($content) {
+			$post_id = get_the_ID();
+			return get_code_content_display($content, $post_id);
+		});
 	}
 }

@@ -37,7 +37,7 @@ function CodeButton() {
     if (!button) return
 
     button.on('invoke', async () => {
-
+      console.log('invo');
       const { clientSecret } = await invokeIntent({
         currency: 'usd',
         destination:  window['GetCodeAppVars'].destination,
