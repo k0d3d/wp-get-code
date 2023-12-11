@@ -295,10 +295,9 @@ class Get_Code_Public
 
 		$text = replace_shortcode_in_string(get_the_content(null, null, $post_id), 'get_code_wall', "");
 
-		wp_send_json_success(
-			apply_filters( 'the_content', $text )
-			// $text
-		);
+		// @phpcs:ignore
+		echo $text;
+		wp_die();
 	}
 
 	private function init_ajax_save_user_post_purchase()
