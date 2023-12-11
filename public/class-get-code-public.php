@@ -138,9 +138,10 @@ class Get_Code_Public
 		}
 
 		if (!is_user_logged_in()) {
+			$current_url = home_url( add_query_arg( [], $GLOBALS['wp']->request ) );
 			echo '<div class="element-with-fade-out"></div>
 				<div class="get_code_opt_default_paywall_message">
-					You need to <a href="' . esc_url(wp_login_url()) . '">login</a> to purchase with Code
+					You need to <a href="' . esc_url(wp_login_url($current_url)) . '">login</a> to purchase with Code
 				</div>';
 			return;
 	}
