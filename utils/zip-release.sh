@@ -4,5 +4,3 @@
 git add -A
 git commit -am "zipped on `date` "
 git archive --prefix=get-code-app/ -o release/release.zip HEAD
-
-zip -r9 release/release.zip ./vendor
