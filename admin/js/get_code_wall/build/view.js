@@ -1,0 +1,1 @@
+console.log("GetCode (from create-block-get_code_wall block)");

@@ -21,6 +21,6 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false
   },
-  "include": ["src"],
+  "include": ["src", "../../admin/js/get_code_wall"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
