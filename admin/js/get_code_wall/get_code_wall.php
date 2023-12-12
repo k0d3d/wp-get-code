@@ -8,7 +8,7 @@
  * Author:            GetCode
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       get_code_wall
+ * Text Domain:       get-code-wall
  *
  * @package           create-block
  */

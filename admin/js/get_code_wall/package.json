@@ -1,5 +1,5 @@
 {
-	"name": "get_code_wall",
+	"name": "get-code-wall",
 	"version": "0.1.0",
 	"description": "Inserts a getcode Shortcode into content editor",
 	"author": "GetCode",
