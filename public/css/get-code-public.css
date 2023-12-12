@@ -58,8 +58,7 @@
 }
 
 .slide-down-fade-out {
-  max-height: 0;
   opacity: 0;
   top: 60vh;;
-  transition: top 0.8s ease-in, max-height 0.5s ease-in, opacity 0.5s ease-in;
+  transition: top 1s ease-in, max-height 0.5s ease-in, opacity 0.8s ease-in;
 }

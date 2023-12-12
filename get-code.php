@@ -16,7 +16,7 @@
  * Plugin Name:       Get Code
  * Plugin URI:        https://https://github.com/k0d3d/wp-get-code
  * Description:       Use GetCode with Wordpress
- * Version:           1.0.34
+ * Version:           1.0.35
  * Author:            GetCode
  * Author URI:        https://getcode.com/
  * License:           GPL-2.0+
@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'GET_CODE_VERSION', '1.0.34' );
+define( 'GET_CODE_VERSION', '1.0.35' );
 
 define('GET_CODE_APP_PATH', plugin_dir_path(__FILE__));
 define('GET_CODE_APP_URL', plugin_dir_url(__FILE__));

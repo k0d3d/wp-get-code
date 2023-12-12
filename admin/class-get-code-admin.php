@@ -79,12 +79,12 @@ class Get_Code_Admin
 		 */
 
 		$screen = get_current_screen();
-		
-    // Check if the current screen is your plugin's settings page
-    if (is_object($screen) && $screen->id === 'toplevel_page_get-code') {
+
+		// Check if the current screen is your plugin's settings page
+		if (is_object($screen) && $screen->id === 'toplevel_page_get-code') {
 			// Enqueue your styles here
-				wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/get-code-admin.css', array(), $this->version, 'all');
-    }
+			wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/get-code-admin.css', array(), $this->version, 'all');
+		}
 	}
 
 	/**
@@ -124,7 +124,7 @@ class Get_Code_Admin
 			'manage_options',
 			$this->plugin_name,
 			array($this, 'add_setting_root_div'),
-			plugins_url( 'get-code-app/admin/img/favicon-16x16.png')
+			plugins_url('get-code-app/admin/img/favicon-16x16.png')
 		);
 	}
 
@@ -138,44 +138,63 @@ class Get_Code_Admin
 		include_once(GET_CODE_APP_PATH . 'admin/partials/get-code-admin-display.php');
 	}
 
-	public function init_elementor_widgets () {
+	public function init_elementor_widgets()
+	{
 
-		function register_get_code_widget( $widgets_manager ) {
+		function register_get_code_widget($widgets_manager)
+		{
 
-			require_once( __DIR__ . '/partials/get-code-admin-elementor-widget.php' );
-		
-			$widgets_manager->register( new GetCode\Widgets\Get_Code_Elementor_Widget() );		
+			require_once(__DIR__ . '/partials/get-code-admin-elementor-widget.php');
+
+			$widgets_manager->register(new GetCode\Widgets\Get_Code_Elementor_Widget());
 		}
 
-		add_action( 'elementor/widgets/register', 'register_get_code_widget' );
-
+		add_action('elementor/widgets/register', 'register_get_code_widget');
 	}
 
 	public function init_save_admin_options()
 	{
-			function get_code_save_custom_options()
-			{
-					check_ajax_referer(GET_CODE_NONCE, 'nonce');
+		function get_code_save_custom_options()
+		{
+			check_ajax_referer(GET_CODE_NONCE, 'nonce');
 
-					if (current_user_can('manage_options')) {
-							$merchant_address = isset($_POST['merchant_address']) ? sanitize_text_field($_POST['merchant_address']) : '';
-							$amount = isset($_POST['default_amount']) ? sanitize_text_field($_POST['default_amount']) : '';
-							$paywall_message = isset($_POST['paywall_message']) ? sanitize_text_field($_POST['paywall_message']) : '';
+			if (current_user_can('manage_options')) {
+				$merchant_address = isset($_POST['merchant_address']) ? sanitize_text_field($_POST['merchant_address']) : '';
+				$amount = isset($_POST['default_amount']) ? sanitize_text_field($_POST['default_amount']) : '';
+				$paywall_message = isset($_POST['paywall_message']) ? sanitize_text_field($_POST['paywall_message']) : '';
 
-							update_option('get_code_opt_default_merchant_address', $merchant_address);
-							update_option('get_code_opt_default_amount', $amount);
-							update_option('get_code_opt_default_paywall_message', $paywall_message);
+				update_option('get_code_opt_default_merchant_address', $merchant_address);
+				update_option('get_code_opt_default_amount', $amount);
+				update_option('get_code_opt_default_paywall_message', $paywall_message);
 
-							wp_send_json_success([
-									"merchant_address" => $merchant_address,
-									"amount" => $amount,
-									"paywall_message" => $paywall_message
-							]);
-					} else {
-							wp_send_json_error();
-					}
+				wp_send_json_success([
+					"merchant_address" => $merchant_address,
+					"amount" => $amount,
+					"paywall_message" => $paywall_message
+				]);
+			} else {
+				wp_send_json_error();
 			}
-			add_action('wp_ajax_get_code_save_custom_options', 'get_code_save_custom_options');
+		}
+		add_action('wp_ajax_get_code_save_custom_options', 'get_code_save_custom_options');
 	}
 
+	public function init_gutenberg_addon()
+	{
+
+		function register_gutenberg_get_code_wall_block()
+		{
+			wp_register_script(
+				'gutenberg-get-code-wall-block',
+				plugin_dir_url(__FILE__) . 'js/block.js',
+				array('wp-blocks', 'wp-editor', 'wp-components', 'wp-i18n')
+			);
+
+			register_block_type('gutenberg/get-code-wall-block', array(
+				'editor_script' => 'gutenberg-get-code-wall-block',
+			));
+		}
+
+		add_action('init', 'register_gutenberg_get_code_wall_block');
+	}
 }
