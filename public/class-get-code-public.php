@@ -191,7 +191,8 @@ class Get_Code_Public
 				// protects output via content variable
 				// it should be empty as nothing is passed 
 				// between the shortcode tags. eg . [get_code_wall]
-				$output .= apply_filters('the_content', $content);
+				// $output .= apply_filters('the_content', $content);
+				return $content;
 			}
 		} else {
 			$output .= '<div class="get_code-box">';
