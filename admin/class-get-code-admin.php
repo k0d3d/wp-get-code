@@ -187,7 +187,8 @@ class Get_Code_Admin
 		{
 			wp_register_script(
 				'gutenberg-get-code-wall-block',
-				plugin_dir_url(__FILE__) . 'js/get_code_wall/build/index.js',
+				plugin_dir_url(__FILE__) . 'js/block.js',
+				// plugin_dir_url(__FILE__) . 'js/get_code_wall/build/index.js',
 				array('wp-blocks', 'wp-editor', 'wp-components', 'wp-i18n')
 			);
 
