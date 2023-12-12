@@ -227,6 +227,7 @@ class Get_Code_Public
 				array(
 					'methods'  => 'GET',
 					'callback' => 'verify_purchase_callback',
+					'permission_callback' => "__return_true",
 					'args'     => array(
 						'nonce'     => array(
 							'required'    => false,
@@ -246,6 +247,7 @@ class Get_Code_Public
 				array(
 					'methods'  => 'GET',
 					'callback' => 'verify_purchase_callback',
+					'permission_callback' => "__return_true",
 					'args'     => array(
 						'nonce'     => array(
 							'required'    => false,

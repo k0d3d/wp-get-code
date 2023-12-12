@@ -55,6 +55,7 @@ class Get_Code_Admin
 		$this->version = $version;
 
 		$this->init_elementor_widgets();
+		$this->init_gutenberg_addon();
 		$this->init_save_admin_options();
 	}
 
