@@ -55,7 +55,7 @@ class Get_Code_Admin
 		$this->version = $version;
 
 		$this->init_elementor_widgets();
-		// $this->init_gutenberg_addon();
+		$this->init_gutenberg_addon();
 		$this->init_save_admin_options();
 	}
 
@@ -188,15 +188,12 @@ class Get_Code_Admin
 			wp_register_script(
 				'gutenberg-get-code-wall-block',
 				plugin_dir_url(__FILE__) . 'js/block.js',
-				// plugin_dir_url(__FILE__) . 'js/get_code_wall/build/index.js',
-				array('wp-blocks', 'wp-editor', 'wp-components', 'wp-i18n')
+				array('wp-blocks', 'wp-editor', 'wp-components', 'wp-i18n'),
+				true
 			);
 
-			register_block_type('gutenberg/get-code-wall-block', array(
-				'editor_script' => 'gutenberg-get-code-wall-block',
-			));
 		}
 
-		add_action('init', 'register_gutenberg_get_code_wall_block');
+		add_action('enqueue_block_editor_assets', 'register_gutenberg_get_code_wall_block');
 	}
 }
