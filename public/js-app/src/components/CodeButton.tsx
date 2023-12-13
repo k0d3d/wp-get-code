@@ -77,7 +77,6 @@ function CodeButton() {
         amount: parseFloat(window['GetCodeAppVars'].default_amount || 0),
       });
       const { clientSecret } = response
-      console.log(clientSecret)
       button.update({ clientSecret });
     })
 
