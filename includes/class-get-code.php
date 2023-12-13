@@ -105,6 +105,7 @@ class Get_Code
 		 * Plugin Core Functions.
 		 */
 		require_once GET_CODE_APP_PATH . 'includes/functions.php';
+		require_once GET_CODE_APP_PATH . 'includes/get-code-payment.php';
 
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
