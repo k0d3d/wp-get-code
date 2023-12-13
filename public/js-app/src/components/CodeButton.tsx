@@ -19,20 +19,24 @@ function adjustHeight(contentHtml) {
   const getCodeDiv = document.querySelector<HTMLElement>('.get_code-box');
   const contentDiv = document.querySelector<HTMLElement>('.content');
   const contentTitleDiv = document.querySelector<HTMLElement>('.content > .entry-title');
-  const pDiv = document.querySelector<HTMLElement>('.content > p');
 
   if (!getCodeDiv || !contentDiv) return
- 
+
   getCodeDiv.classList.add('slide-down-fade-out')
-  
+
   // Listen for the transitionend event
   getCodeDiv.addEventListener('transitionend', function () {
     if (contentDiv.classList.contains('injected-post')) return true
-
-    pDiv && pDiv.remove();
-    contentTitleDiv && contentTitleDiv.insertAdjacentHTML( "afterend", contentHtml );
+    if (!contentTitleDiv) return
+    let nextSibling = contentTitleDiv.nextElementSibling;
+    while (nextSibling) {
+      // @ts-ignore
+      contentTitleDiv.parentNode.removeChild(nextSibling);
+      nextSibling = contentTitleDiv.nextElementSibling;
+    }
+    contentTitleDiv && contentTitleDiv.insertAdjacentHTML("afterend", contentHtml);
     contentDiv.classList.add('injected-post')
-
+    // getCodeDiv.style.display = "none";
   });
 }
 
