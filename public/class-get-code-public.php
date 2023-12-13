@@ -94,7 +94,6 @@ class Get_Code_Public
 	 */
 	public function enqueue_scripts()
 	{
-		global $product;
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -123,8 +122,8 @@ class Get_Code_Public
 			'default_amount' => get_option('get_code_opt_default_amount'),
 			'post_id' => $current_post->ID
 		);
-		if ($product) {
-			$local_vars_array['product_id'] = $product->get_id();
+		if (is_checkout()) {
+			$local_vars_array['is_checkout'] = true;
 		}
 
 		wp_localize_script($this->plugin_name . '-js-app', 'GetCodeAppVars', $local_vars_array);

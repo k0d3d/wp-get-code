@@ -10,3 +10,12 @@ ReactDOM.createRoot(root!).render(
     <App />
   </React.StrictMode>,
 )
+
+
+window['initApp'] = function initApp () {
+  ReactDOM.createRoot(root!).render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>,
+  )
+}
