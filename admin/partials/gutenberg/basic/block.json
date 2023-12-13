@@ -1,0 +1,11 @@
+{
+	"$schema": "https://json.schemastore.org/block.json",
+	"apiVersion": 2,
+	"title": "Example: Basic",
+	"name": "get-code/example-01-basic",
+	"category": "layout",
+	"icon": "universal-access-alt",
+	"textdomain": "get-code",
+	"example": {},
+	"editorScript": "file:./block.js"
+}

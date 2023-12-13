@@ -193,7 +193,7 @@ class Get_Code_Admin
 	public function init_gutenberg_addon()
 	{
 
-		require_once(__DIR__ . '/partials/gutenberg-examples/gutenberg-examples-zip/01-basic/index.php');
+		require_once(__DIR__ . '/partials/gutenberg/index.php');
 
 	}
 }
