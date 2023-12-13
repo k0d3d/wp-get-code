@@ -1,10 +1,5 @@
 <?php
-/*
-Plugin Name: Custom Payment Gateway
-Description: Custom payment gateway example
-Author: Lafif Astahdziq
-Author URI: https://lafif.me
-*/
+
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
