@@ -291,6 +291,14 @@ class Get_Code_Public
 		// return the post content
 		$text = replace_shortcode_in_string(get_the_content(null, null, $post_id), 'get_code_wall', "");
 
+		$elementor_page = get_post_meta($post_id, '_elementor_edit_mode', true);
+		if (!!$elementor_page) {
+			//page is build with elementor
+			// @phpcs:ignore
+			echo Elementor\Plugin::instance()->frontend->get_builder_content_for_display($post_id);
+			wp_die();
+		}
+
 		// @phpcs:ignore
 		echo $text;
 		wp_die();
@@ -334,7 +342,7 @@ class Get_Code_Public
 
 		$data['tx_intent'] = $intent_id;
 		$data['code_tx_id'] = $clientSecret;
-		$data['status'] = $status; 
+		$data['status'] = $status;
 
 		// Perform the purchase record save
 		$record_id = save_purchase_record($data);
