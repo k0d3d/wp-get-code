@@ -285,17 +285,28 @@ class Get_Code_Public
 		// verification logic here...
 		// @todo: verify the status 
 		// $status = PaymentIntents::getStatus($tx_intent); 
-	
-		// Check if a record with the given $tx_intent exists
-		$result = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE tx_intent = %s", $data['tx_intent'])); // @todo: add tx_status=submitted 
+		$status = [
+			"status" => "SUBMITTED"
+		];
+		
+		update_purchase_record([
+			"status" => $status['status']
+		]);	
+
+		if ($status['status'] !== 'SUBMITTED') {
+			wp_send_json_error(['not submitted']);
+		}
+		// Check if a record with the given $tx_intent exists.
+		$result = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE tx_intent = %s AND tx_status='SUBMITTED'", $data['tx_intent']));
+
 
 		if (empty($result)) {
-			wp_send_json_success('');
+			wp_send_json_error(['post not found']);
 		}
-
+		// get the post id 
 		$post_id = $result->post_id;
 
-
+		// return the post content
 		$text = replace_shortcode_in_string(get_the_content(null, null, $post_id), 'get_code_wall', "");
 
 		// @phpcs:ignore

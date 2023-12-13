@@ -54,6 +54,39 @@ function save_purchase_record($data)
 }
 
 
+/**
+ * Updates a record of a user's purchase to the database.
+ * This function does not save the destination address.
+ */
+function update_purchase_record($data)
+{
+  global $wpdb;
+
+  // Replace 'wp_get_code_user_purchases' with your actual table name
+  $table_name = $wpdb->prefix . GET_CODE_TABLE_NAME_USER_PURCHASES;
+
+  // Prepare data for insertion
+  $insert_data = array(
+    'tx_status'   => $data['status'],
+  );
+
+  // Format the data types for the insert statement
+  $data_formats = array( '%s');
+
+  // Insert data into the database
+  $wpdb->insert($table_name, $insert_data, $data_formats);
+
+  // Check for errors
+  if ($wpdb->last_error) {
+    // Handle the error, e.g., log it or return false
+    return false;
+  }
+
+  // Return the ID of the inserted record
+  return $wpdb->insert_id;
+}
+
+
 function has_user_purchased($post_id)
 {
   global $wpdb;

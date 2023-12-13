@@ -46,21 +46,13 @@ function CodeButton() {
       currency: 'usd', // @todo: get currency from WC or from GC Settings
       destination: window['GetCodeAppVars'].destination,
       amount: parseFloat(window['GetCodeAppVars'].default_amount || 0),
-      confirmParams: {
-        success: {
-          url: '/wp-json/get_code_app/verify?tx_intent={{INTENT_ID}}&nonce=' + window['GetCodeAppVars']?.nonce,
-        },
-        cancel: {
-          url: '/wp-json/get_code_app/verify?tx_intent={{INTENT_ID}}&nonce=' + window['GetCodeAppVars']?.nonce
-        }
-      }
     });
 
     if (!button) return
 
     button.on('cancel', async (e) => {
       console.log(e)
-      const content = await handlePurchase(e.options.clientSecret)
+      const content = await handlePurchase(e.intent)
       if (content && content != '') {
         adjustHeight(content)
       }
@@ -68,7 +60,7 @@ function CodeButton() {
     })
 
     button.on('success', async (e) => {
-      const content = await handlePurchase(e.options.clientSecret)
+      const content = await handlePurchase(e.intent)
       if (content && content != '') {
         adjustHeight(content)
       }
