@@ -15,9 +15,9 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Load all translations for our plugin from the MO file.
  */
-add_action( 'init', 'gutenberg_examples_01_load_textdomain' );
+add_action( 'init', 'get_code_01_load_textdomain' );
 
-function gutenberg_examples_01_load_textdomain() {
+function get_code_01_load_textdomain() {
 	load_plugin_textdomain( 'get-code', false, basename( __DIR__ ) . '/languages' );
 }
 
@@ -27,7 +27,7 @@ function gutenberg_examples_01_load_textdomain() {
  *
  * Passes translations to JavaScript.
  */
-function gutenberg_examples_01_register_block() {
+function get_code_01_register_block() {
 
 	if ( ! function_exists( 'register_block_type' ) ) {
 		// Gutenberg is not active.
@@ -47,4 +47,4 @@ function gutenberg_examples_01_register_block() {
 	}
 
 }
-add_action( 'init', 'gutenberg_examples_01_register_block' );
+add_action( 'init', 'get_code_01_register_block' );

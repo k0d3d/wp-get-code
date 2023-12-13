@@ -12,17 +12,16 @@
 	var useBlockProps = blockEditor.useBlockProps;
 
 	var blockStyle = {
-		backgroundColor: '#900',
-		color: '#fff',
+		color: '#000',
 		padding: '20px',
 	};
 
-	blocks.registerBlockType( 'get-code/example-01-basic', {
+	blocks.registerBlockType( 'get-code/get-code-basic', {
 		edit: function() {
 			return el(
 				'p',
 				useBlockProps( { style: blockStyle } ),
-				__( 'Hello World, step 1 (from the editor).',
+				__( '[get_code_wall]',
 					'get-code'
 				)
 			);
@@ -31,7 +30,7 @@
 			return el(
 				'p',
 				useBlockProps.save( { style: blockStyle } ),
-				__( 'Hello World, step 1 (from the frontend).',
+				__( '[get_code_wall]',
 					'get-code'
 				)
 			);

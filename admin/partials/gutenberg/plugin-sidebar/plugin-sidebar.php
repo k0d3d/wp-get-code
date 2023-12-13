@@ -1,10 +1,6 @@
 <?php
 /**
- * Plugin Name: Gutenberg Examples Sidebar Example
- * Plugin URI: https://github.com/WordPress/get-code
  * Description: This is a plugin demonstrating how to add a sidebar in the block editor.
- * Version: 1.0.0
- * Author: the Gutenberg Team
  *
  * @package get-code
  */

@@ -1,10 +1,6 @@
 <?php
 /**
- * Plugin Name: Gutenberg Examples Format API
- * Plugin URI: https://github.com/WordPress/get-code
- * Description: This is a plugin demonstrating how to use Format API in the Gutenberg editor.
- * Version: 1.0.0
- * Author: the Gutenberg Team
+ * Description: demonstrating how to use Format API in the Gutenberg editor.
  *
  * @package get-code
  */
