@@ -13,9 +13,10 @@ ReactDOM.createRoot(root!).render(
 
 
 window['initApp'] = function initApp () {
+  const root = document.getElementById('get-code-button-checkout')
   ReactDOM.createRoot(root!).render(
     <React.StrictMode>
-      <App />
+      <p>Happy people</p>
     </React.StrictMode>,
   )
 }
