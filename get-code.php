@@ -13,9 +13,9 @@
  * @package           Get_Code
  *
  * @wordpress-plugin
- * Plugin Name:       Get Code
+ * Plugin Name:       Code Wallet
  * Plugin URI:        https://https://github.com/k0d3d/wp-get-code
- * Description:       Use GetCode with Wordpress
+ * Description:       Use Code Wallet with Wordpress
  * Version:           1.0.46
  * Author:            GetCode
  * Author URI:        https://getcode.com/

@@ -121,16 +121,8 @@ function init_get_code_gateway_class(){
                 echo wpautop( wptexturize( $description ) );
             }
 
-            ?>
-            <div id="get_code_input">
-                <p class="form-row form-row-wide">
-                    <label for="mobile" class=""><?php _e('Mobile Number', $this->domain); ?></label>
-                    <input type="text" class="" name="mobile" id="mobile" placeholder="" value="">
-                </p>
-                <p class="form-row form-row-wide">
-                    <label for="transaction" class=""><?php _e('Transaction ID', $this->domain); ?></label>
-                    <input type="text" class="" name="transaction" id="transaction" placeholder="" value="">
-                </p>
+?>
+            <div id="get-code-button-container">
             </div>
             <?php
         }
