@@ -122,8 +122,6 @@ function init_get_code_gateway_class(){
             }
 
 ?>
-            <div id="get-code-button-container">
-            </div>
             <div id="get-code-button-checkout">
             </div>
             <?php
