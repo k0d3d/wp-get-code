@@ -295,7 +295,7 @@ class Get_Code_Public
 		if (!!$elementor_page) {
 			//page is build with elementor
 			// @phpcs:ignore
-			echo replace_shortcode_in_string( Elementor\Plugin::instance()->frontend->get_builder_content_for_display($post_id) );
+			echo replace_shortcode_in_string( Elementor\Plugin::instance()->frontend->get_builder_content_for_display($post_id), 'get_code_wall', "" );
 			wp_die();
 		}
 
