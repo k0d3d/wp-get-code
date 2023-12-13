@@ -1,6 +1,6 @@
 <?php
 
-require GET_CODE_APP_PATH. '/vendor/autoload.php';
+require GET_CODE_APP_PATH . '/vendor/autoload.php';
 
 use CodeWallet\Client\PaymentIntents;
 
@@ -65,16 +65,12 @@ function update_purchase_record($data)
   // Replace 'wp_get_code_user_purchases' with your actual table name
   $table_name = $wpdb->prefix . GET_CODE_TABLE_NAME_USER_PURCHASES;
 
-  // Prepare data for insertion
-  $insert_data = array(
-    'tx_status'   => $data['status'],
-  );
-
-  // Format the data types for the insert statement
-  $data_formats = array( '%s');
-
   // Insert data into the database
-  $wpdb->insert($table_name, $insert_data, $data_formats);
+  $wpdb->update(
+    $table_name,
+    array('tx_status' => $data['status']),
+    array('tx_intent' => $data['tx_intent'])
+  );
 
   // Check for errors
   if ($wpdb->last_error) {
@@ -112,57 +108,57 @@ function has_user_purchased($post_id)
   return $purchase_count > 0;
 }
 
-// Callback function for the custom route
+/**
+* Callback function for the custom route.
+* This will return a user purchase record 
+* which includes a post_id if the intent returns 
+* a SUBMITTED status else it returns false.
+* If It will return "not submitted" if no intent is 
+* not == submitted. It 
+*/ 
+
 function verify_purchase_callback($data)
 {
   global $wpdb;
 
   // Retrieve and sanitize query parameters
-  $nonce     = sanitize_text_field($data['nonce']);
   $tx_intent = sanitize_text_field($data['tx_intent']);
-  
+
   $table_name = $wpdb->prefix . GET_CODE_TABLE_NAME_USER_PURCHASES;
 
   // verification logic here...
-  $status = PaymentIntents::getStatus($tx_intent);
+  // @todo: verify the status 
+  // $status = PaymentIntents::getStatus($tx_intent); 
+  $status = [
+    "status" => "SUBMITTED"
+  ];
 
-  // Check if a record with the given $tx_intent exists
-  $result = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE tx_intent = %s", $tx_intent));
+  update_purchase_record([
+    "status" => $status['status'],
+    "tx_intent" => $tx_intent
+  ]);	
+
+  if ($status['status'] !== 'SUBMITTED') {
+    wp_send_json_error(['not submitted']);
+  }
+
+  // Check if a record with the given $tx_intent exists.
+  $result = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE tx_intent = %s AND tx_status='SUBMITTED'", $tx_intent));
 
   if (!$result) {
     // No record found, return an error
-    echo "Error: No record found for the given tx_intent.";
+    return false;
   } else {
-    // Record found, update the status column to "success"
-    $wpdb->update(
-      $table_name,
-      array('tx_status' => $status),
-      array('tx_intent' => $tx_intent)
-    );
-
-    echo "Success: Record updated.";
-    wp_send_json_success([
-      'tx_status' => $status,
-      'tx_intent' => $tx_intent
-    ]);
+    return $result;
   }
-
-  // Example response
-  $response = array(
-    'success' => true,
-    'message' => 'Verification successful!',
-    'nonce'   => $nonce,
-    'tx_intent' => $tx_intent,
-  );
-
-  return rest_ensure_response($response);
 }
 
 
-function replace_shortcode_in_string($content, $shortcode_to_replace, $replacement) {
+function replace_shortcode_in_string($content, $shortcode_to_replace, $replacement)
+{
   $pattern = get_shortcode_regex(array($shortcode_to_replace));
   $content = preg_replace_callback("/$pattern/", function ($matches) use ($replacement) {
-      return str_replace($matches[0], $replacement, $matches[0]);
+    return str_replace($matches[0], $replacement, $matches[0]);
   }, $content);
 
   return $content;

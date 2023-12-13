@@ -280,25 +280,7 @@ class Get_Code_Public
 			'tx_intent'    => !empty($_POST['tx_intent']) ? sanitize_text_field($_POST['tx_intent']) : null,
 		);
 
-		$table_name = $wpdb->prefix . GET_CODE_TABLE_NAME_USER_PURCHASES;
-
-		// verification logic here...
-		// @todo: verify the status 
-		// $status = PaymentIntents::getStatus($tx_intent); 
-		$status = [
-			"status" => "SUBMITTED"
-		];
-		
-		update_purchase_record([
-			"status" => $status['status']
-		]);	
-
-		if ($status['status'] !== 'SUBMITTED') {
-			wp_send_json_error(['not submitted']);
-		}
-		// Check if a record with the given $tx_intent exists.
-		$result = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE tx_intent = %s AND tx_status='SUBMITTED'", $data['tx_intent']));
-
+		$result = verify_purchase_callback($data);
 
 		if (empty($result)) {
 			wp_send_json_error(['post not found']);
