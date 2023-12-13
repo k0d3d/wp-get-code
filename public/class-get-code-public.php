@@ -94,6 +94,7 @@ class Get_Code_Public
 	 */
 	public function enqueue_scripts()
 	{
+		global $product;
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -114,16 +115,19 @@ class Get_Code_Public
 		// Localize script with additional data
 		$current_post = get_post();
 		if (empty($current_post)) return;
-		wp_localize_script($this->plugin_name . '-js-app', 'GetCodeAppVars', array(
+		$local_vars_array = array(
 			'nonce' => wp_create_nonce(GET_CODE_NONCE),
 			'user_id' => get_current_user_id(),
 			'ajax_url' => admin_url('admin-ajax.php'),
 			'destination' => get_option('get_code_opt_default_merchant_address'),
 			'default_amount' => get_option('get_code_opt_default_amount'),
-			'post_id' => $current_post->ID,
-			'product_id' => wc_get_product()->get_id()
+			'post_id' => $current_post->ID
+		);
+		if ($product) {
+			$local_vars_array['product_id'] = $product->get_id();
+		}
 
-		));
+		wp_localize_script($this->plugin_name . '-js-app', 'GetCodeAppVars', $local_vars_array);
 	}
 
 	/**

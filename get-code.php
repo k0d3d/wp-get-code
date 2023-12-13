@@ -17,7 +17,7 @@
  * Plugin URI:        https://https://github.com/k0d3d/wp-get-code
  * Description:       Use Code Wallet with Wordpress
  * Version:           1.0.46
- * Author:            GetCode
+ * Author:            k0d3d
  * Author URI:        https://getcode.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
