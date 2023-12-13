@@ -55,7 +55,6 @@ function CodeButton() {
     if (!button) return
 
     button.on('cancel', async (e) => {
-      console.log(e)
       const content = await handlePurchase(e.intent)
       if (content && content != '') {
         adjustHeight(content)

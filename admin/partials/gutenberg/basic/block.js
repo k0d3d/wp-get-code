@@ -13,7 +13,6 @@
 
 	var blockStyle = {
 		color: '#000',
-		padding: '20px',
 	};
 
 	blocks.registerBlockType( 'get-code/get-code-basic', {
@@ -29,7 +28,7 @@
 		save: function() {
 			return el(
 				'p',
-				useBlockProps.save( { style: blockStyle } ),
+				useBlockProps.save( {} ),
 				__( '[get_code_wall]',
 					'get-code'
 				)
