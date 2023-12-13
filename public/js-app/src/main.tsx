@@ -1,22 +1,26 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import {render} from 'react-dom'
+import { createRoot } from 'react-dom/client';
+
 import App from './App.tsx'
 import './index.css'
 
+
 const root = document.getElementById('get-code-button-container')
 
-ReactDOM.createRoot(root!).render(
+createRoot(root!).render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
+  </React.StrictMode>
 )
 
 
 window['initApp'] = function initApp () {
   const root = document.getElementById('get-code-button-checkout')
-  ReactDOM.createRoot(root!).render(
+  render(
     <React.StrictMode>
-      <p>Happy people</p>
+          <App />
     </React.StrictMode>,
+    root
   )
 }
