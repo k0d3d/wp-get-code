@@ -6,14 +6,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Custom Payment Gateway.
+ * Get Code Payment Gateway.
  *
- * Provides a Custom Payment Gateway, mainly for testing purposes.
+ * Provides a GetCode Payment Gateway, mainly for testing purposes.
  */
-add_action('plugins_loaded', 'init_custom_gateway_class');
+add_action('plugins_loaded', 'init_get_code_gateway_class');
 
-function init_custom_gateway_class(){
-    class WC_Gateway_Custom extends WC_Payment_Gateway {
+function init_get_code_gateway_class(){
+    class WC_Gateway_Get_Code_Payment extends WC_Payment_Gateway {
 
         public $domain;
 
@@ -22,13 +22,13 @@ function init_custom_gateway_class(){
          */
         public function __construct() {
 
-            $this->domain = 'custom_payment';
+            $this->domain = 'get_code_payment';
 
-            $this->id                 = 'custom';
-            $this->icon               = apply_filters('woocommerce_custom_gateway_icon', '');
+            $this->id                 = 'get_code';
+            $this->icon               = apply_filters('woocommerce_get_code_gateway_icon', '');
             $this->has_fields         = false;
-            $this->method_title       = __( 'Custom', $this->domain );
-            $this->method_description = __( 'Allows payments with custom gateway.', $this->domain );
+            $this->method_title       = __( 'GetCode Checkout', $this->domain );
+            $this->method_description = __( 'Allows payments with Get Code gateway.', $this->domain );
 
             // Load the settings.
             $this->init_form_fields();
@@ -42,9 +42,9 @@ function init_custom_gateway_class(){
 
             // Actions
             add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
-            add_action( 'woocommerce_thankyou_custom', array( $this, 'thankyou_page' ) );
+            add_action( 'woocommerce_thankyou_'. $this->id, array( $this, 'thankyou_page' ) );
 
-            // Customer Emails
+            // Get Codeer Emails
             add_action( 'woocommerce_email_before_order_table', array( $this, 'email_instructions' ), 10, 3 );
         }
 
@@ -57,14 +57,14 @@ function init_custom_gateway_class(){
                 'enabled' => array(
                     'title'   => __( 'Enable/Disable', $this->domain ),
                     'type'    => 'checkbox',
-                    'label'   => __( 'Enable Custom Payment', $this->domain ),
+                    'label'   => __( 'Enable Get Code Payment', $this->domain ),
                     'default' => 'yes'
                 ),
                 'title' => array(
                     'title'       => __( 'Title', $this->domain ),
                     'type'        => 'text',
                     'description' => __( 'This controls the title which the user sees during checkout.', $this->domain ),
-                    'default'     => __( 'Custom Payment', $this->domain ),
+                    'default'     => __( 'Get Code Payment', $this->domain ),
                     'desc_tip'    => true,
                 ),
                 'order_status' => array(
@@ -79,7 +79,7 @@ function init_custom_gateway_class(){
                 'description' => array(
                     'title'       => __( 'Description', $this->domain ),
                     'type'        => 'textarea',
-                    'description' => __( 'Payment method description that the customer will see on your checkout.', $this->domain ),
+                    'description' => __( 'Payment method description that the get_codeer will see on your checkout.', $this->domain ),
                     'default'     => __('Payment Information', $this->domain),
                     'desc_tip'    => true,
                 ),
@@ -110,7 +110,7 @@ function init_custom_gateway_class(){
          * @param bool $plain_text
          */
         public function email_instructions( $order, $sent_to_admin, $plain_text = false ) {
-            if ( $this->instructions && ! $sent_to_admin && 'custom' === $order->payment_method && $order->has_status( 'on-hold' ) ) {
+            if ( $this->instructions && ! $sent_to_admin && 'get_code' === $order->payment_method && $order->has_status( 'on-hold' ) ) {
                 echo wpautop( wptexturize( $this->instructions ) ) . PHP_EOL;
             }
         }
@@ -122,7 +122,7 @@ function init_custom_gateway_class(){
             }
 
             ?>
-            <div id="custom_input">
+            <div id="get_code_input">
                 <p class="form-row form-row-wide">
                     <label for="mobile" class=""><?php _e('Mobile Number', $this->domain); ?></label>
                     <input type="text" class="" name="mobile" id="mobile" placeholder="" value="">
@@ -148,7 +148,7 @@ function init_custom_gateway_class(){
             $status = 'wc-' === substr( $this->order_status, 0, 3 ) ? substr( $this->order_status, 3 ) : $this->order_status;
 
             // Set order status
-            $order->update_status( $status, __( 'Checkout with custom payment. ', $this->domain ) );
+            $order->update_status( $status, __( 'Checkout with get_code payment. ', $this->domain ) );
 
             // Reduce stock levels
             $order->reduce_order_stock();
@@ -165,16 +165,16 @@ function init_custom_gateway_class(){
     }
 }
 
-add_filter( 'woocommerce_payment_gateways', 'add_custom_gateway_class' );
-function add_custom_gateway_class( $methods ) {
-    $methods[] = 'WC_Gateway_Custom'; 
+add_filter( 'woocommerce_payment_gateways', 'add_get_code_gateway_class' );
+function add_get_code_gateway_class( $methods ) {
+    $methods[] = 'WC_Gateway_Get_Code_Payment'; 
     return $methods;
 }
 
-add_action('woocommerce_checkout_process', 'process_custom_payment');
-function process_custom_payment(){
+add_action('woocommerce_checkout_process', 'process_get_code_payment');
+function process_get_code_payment(){
 
-    if($_POST['payment_method'] != 'custom')
+    if($_POST['payment_method'] != 'get_code')
         return;
 
     if( !isset($_POST['mobile']) || empty($_POST['mobile']) )
@@ -189,10 +189,10 @@ function process_custom_payment(){
 /**
  * Update the order meta with field value
  */
-add_action( 'woocommerce_checkout_update_order_meta', 'custom_payment_update_order_meta' );
-function custom_payment_update_order_meta( $order_id ) {
+add_action( 'woocommerce_checkout_update_order_meta', 'get_code_payment_update_order_meta' );
+function get_code_payment_update_order_meta( $order_id ) {
 
-    if($_POST['payment_method'] != 'custom')
+    if($_POST['payment_method'] != 'get_code')
         return;
 
     // echo "<pre>";
@@ -200,22 +200,19 @@ function custom_payment_update_order_meta( $order_id ) {
     // echo "</pre>";
     // exit();
 
-    update_post_meta( $order_id, 'mobile', $_POST['mobile'] );
-    update_post_meta( $order_id, 'transaction', $_POST['transaction'] );
+    update_post_meta( $order_id, 'tx_intent_id', $_POST['tx_intent'] );
 }
 
 /**
  * Display field value on the order edit page
  */
-add_action( 'woocommerce_admin_order_data_after_billing_address', 'custom_checkout_field_display_admin_order_meta', 10, 1 );
-function custom_checkout_field_display_admin_order_meta($order){
+add_action( 'woocommerce_admin_order_data_after_billing_address', 'get_code_checkout_field_display_admin_order_meta', 10, 1 );
+function get_code_checkout_field_display_admin_order_meta($order){
     $method = get_post_meta( $order->id, '_payment_method', true );
-    if($method != 'custom')
+    if($method != 'get_code')
         return;
 
-    $mobile = get_post_meta( $order->id, 'mobile', true );
-    $transaction = get_post_meta( $order->id, 'transaction', true );
+    $intent_id = get_post_meta( $order->id, 'tx_intent_id', true );
 
-    echo '<p><strong>'.__( 'Mobile Number' ).':</strong> ' . $mobile . '</p>';
-    echo '<p><strong>'.__( 'Transaction ID').':</strong> ' . $transaction . '</p>';
+    echo '<p><strong>'. esc_html( 'Tx Intent' ) .': </strong> ' . esc_html($intent_id) . '</p>';
 }
