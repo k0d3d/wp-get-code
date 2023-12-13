@@ -330,25 +330,25 @@ class Get_Code_Public
 			'amount' => $data['amount'],
 			'currency' => $data['currency'],
 		];
-		// wp_send_json_error($data);
 
 		$response = PaymentIntents::create($intent_data);
 
-		$intentId = $response['id'];
+		$clientSecret = $response['clientSecret'];
+		$intent_id = $response['id'];
 		// After some time, you can verify the status of the intent
-		$status = PaymentIntents::getStatus($intentId);
+		$status = 'pending';
 
 
-		$data['tx_intent'] = $intentId;
-		$data['status'] = 'SUBMITTED'; // @todo: remove this  
-		// $data['status'] = $status['status']; 
+		$data['tx_intent'] = $intent_id;
+		$data['code_tx_id'] = $clientSecret;
+		$data['status'] = $status; 
 
 		// Perform the purchase record save
 		$record_id = save_purchase_record($data);
 
 		if ($record_id) {
 			// Return a success response with the inserted record ID
-			wp_send_json_success(array('record_id' => $record_id, 'status' => $status, 'clientSecret' => $intentId));
+			wp_send_json_success(array('record_id' => $record_id, 'status' => $status, 'clientSecret' => $clientSecret));
 		} else {
 			// Return an error response
 			wp_send_json_error(array('message' => 'Failed to insert record.'));

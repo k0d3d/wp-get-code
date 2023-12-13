@@ -22,23 +22,16 @@ function adjustHeight(contentHtml) {
   const pDiv = document.querySelector<HTMLElement>('.content > p');
 
   if (!getCodeDiv || !contentDiv) return
-  // Get the current height of the div
-  
-  // Allow the browser to recalculate styles before setting the new height
-  
+ 
   getCodeDiv.classList.add('slide-down-fade-out')
   
   // Listen for the transitionend event
   getCodeDiv.addEventListener('transitionend', function () {
     if (contentDiv.classList.contains('injected-post')) return true
-    // const currentHeight = contentDiv.offsetHeight;
-    // window.getComputedStyle(contentDiv).height;
+
     pDiv && pDiv.remove();
-    // Check if the event property matches the animated property ('height') and the target element
     contentTitleDiv && contentTitleDiv.insertAdjacentHTML( "afterend", contentHtml );
     contentDiv.classList.add('injected-post')
-    // Set the new height based on the updated content
-    // contentDiv.style.height = currentHeight + "px";
 
   });
 }

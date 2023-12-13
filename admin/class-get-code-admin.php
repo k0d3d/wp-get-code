@@ -55,7 +55,7 @@ class Get_Code_Admin
 		$this->version = $version;
 
 		$this->init_elementor_widgets();
-		// $this->init_gutenberg_addon();
+		$this->init_gutenberg_addon();
 		$this->init_save_admin_options();
 	}
 
@@ -139,6 +139,11 @@ class Get_Code_Admin
 		include_once(GET_CODE_APP_PATH . 'admin/partials/get-code-admin-display.php');
 	}
 
+	/**
+	 * Registers the Elementor Addon.
+	 * This allows the user to insert the [get_code_wall]
+	 * shortcode into an Elementor post editor. 
+	 */
 	public function init_elementor_widgets()
 	{
 
@@ -153,6 +158,10 @@ class Get_Code_Admin
 		add_action('elementor/widgets/register', 'register_get_code_widget');
 	}
 
+	/**
+	 * Handles saving the values for the Get Code
+	 * Admin setting screen. 
+	 */
 	public function init_save_admin_options()
 	{
 		function get_code_save_custom_options()
@@ -180,20 +189,11 @@ class Get_Code_Admin
 		add_action('wp_ajax_get_code_save_custom_options', 'get_code_save_custom_options');
 	}
 
+	
 	public function init_gutenberg_addon()
 	{
 
-		function register_gutenberg_get_code_wall_block()
-		{
-			wp_register_script(
-				'gutenberg-get-code-wall-block',
-				plugin_dir_url(__FILE__) . 'js/block.js',
-				array('wp-blocks', 'wp-editor', 'wp-components', 'wp-i18n'),
-				true
-			);
+		require_once(__DIR__ . '/partials/gutenberg-examples/gutenberg-examples-zip/01-basic/index.php');
 
-		}
-
-		add_action('enqueue_block_editor_assets', 'register_gutenberg_get_code_wall_block');
 	}
 }
