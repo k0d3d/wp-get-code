@@ -22,10 +22,7 @@ function CodeButton() {
     if (!button) return
 
     button.on('cancel', async (e) => {
-      const content = await handlePurchase(e.intent)
-      if (content && content != '') {  // @todo: remove this
-        adjustHeight(content)
-      }
+      await handlePurchase(e.intent)
       return true
     })
 

@@ -128,10 +128,10 @@ function verify_purchase_callback($data)
 
   // verification logic here...
   // @todo: verify the status 
-  // $status = PaymentIntents::getStatus($tx_intent); 
-  $status = [
-    "status" => "SUBMITTED"
-  ];
+  $status = PaymentIntents::getStatus($tx_intent); 
+  // $status = [
+  //   "status" => "SUBMITTED"
+  // ];
 
   update_purchase_record([
     "status" => $status['status'],

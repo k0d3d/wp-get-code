@@ -123,6 +123,7 @@ function init_get_code_gateway_class(){
 
 ?>
             <div id="get-code-button-checkout">
+                <button id="init-code-checkout-app" style="width: 200px; height: 60px; background: black; border-radius: 5px; color: white;"  onclick="initCodeCheckoutApp()">Proceed</button>
             </div>
             <?php
         }
@@ -166,7 +167,7 @@ function add_get_code_gateway_class( $methods ) {
 add_action('woocommerce_checkout_process', 'process_get_code_payment');
 function process_get_code_payment(){
     // Verify the nonce for security
-    check_ajax_referer(GET_CODE_NONCE, 'get_code_nonce');
+    check_ajax_referer(GET_CODE_NONCE, 'code_checkout_nonce');
 
     if($_POST['payment_method'] != 'get_code') {
         return;
@@ -207,11 +208,11 @@ function get_code_payment_update_order_meta( $order_id ) {
  */
 add_action( 'woocommerce_admin_order_data_after_billing_address', 'get_code_checkout_field_display_admin_order_meta', 10, 1 );
 function get_code_checkout_field_display_admin_order_meta($order){
-    $method = get_post_meta( $order->id, '_payment_method', true );
+    $method = get_post_meta( $order->get_id(), '_payment_method', true );
     if($method != 'get_code')
         return;
 
-    $intent_id = get_post_meta( $order->id, 'tx_intent_id', true );
+    $intent_id = get_post_meta( $order->get_id(), 'tx_intent_id', true );
 
     echo '<p><strong>'. esc_html( 'Tx Intent' ) .': </strong> ' . esc_html($intent_id) . '</p>';
 }

@@ -1,6 +1,6 @@
 
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "test") {
   window['GetCodeAppVars'] = {
     "nonce": "644744b619",
     "user_id": "0",

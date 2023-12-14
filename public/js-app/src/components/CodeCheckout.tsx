@@ -53,13 +53,13 @@ function CodeCheckout() {
     if (!button) return
 
     button.on('cancel', async (e) => {
-      beforeCheckout(e.intent)
-      isDone()
+      await handlePurchase(e.intent)
       return true
     })
-
+    
     button.on('success', async (e) => {
-      await handlePurchase(e.intent)
+      beforeCheckout(e.intent)
+      isDone()
       return true
     })
 
@@ -67,8 +67,6 @@ function CodeCheckout() {
       woo.disableOtherPaymentMethods();
       woo.disableCheckoutFormInputs();
 
-      // Validating WC checkout form
-      if ( !woo.validateWCCheckoutForm() ) return false;
       const response = await invokeIntent({
         currency: 'usd',
         destination: window['GetCodeAppVars'].destination,

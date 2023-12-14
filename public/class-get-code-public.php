@@ -273,6 +273,7 @@ class Get_Code_Public
 	private function init_ajax_complete_user_post_purchase()
 	{
 		add_action('wp_ajax_get_code_complete_purchase', [$this, 'save_complete_ajax']);
+		add_action('wp_ajax_nopriv_get_code_complete_purchase', [$this, 'save_complete_ajax']);
 	}
 
 	/**
@@ -320,6 +321,7 @@ class Get_Code_Public
 	private function init_ajax_save_user_post_purchase()
 	{
 		add_action('wp_ajax_get_code_save_purchase', [$this, 'save_purchase_ajax']);
+		add_action('wp_ajax_nopriv_get_code_save_purchase', [$this, 'save_purchase_ajax']);
 	}
 
 	// Callback function for the AJAX endpoint
@@ -336,7 +338,7 @@ class Get_Code_Public
 	public function save_purchase_ajax()
 	{
 		// Verify the nonce for security
-		check_ajax_referer(GET_CODE_NONCE, 'code_checkout_nonce');
+		check_ajax_referer(GET_CODE_NONCE, 'nonce');
 
 		// Validate and sanitize input data
 		$data = array(
