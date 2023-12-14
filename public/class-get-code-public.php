@@ -124,6 +124,7 @@ class Get_Code_Public
 		);
 		if (is_checkout()) {
 			$local_vars_array['is_checkout'] = true;
+			$local_vars_array['cart_total'] = WC()->cart->total;
 		}
 
 		wp_localize_script($this->plugin_name . '-js-app', 'GetCodeAppVars', $local_vars_array);
@@ -314,6 +315,16 @@ class Get_Code_Public
 	}
 
 	// Callback function for the AJAX endpoint
+	/**
+	 * When a user taps on Pay with Code button,
+	 * An ajax request is sent through to this function. 
+	 * On Success, a clientSecret is sent back in an object.
+	 * This function requests an intent using Code SDK.
+	 * A successful request returns an intent object containing
+	 * a clientSecret and id. 
+	 * The id is saved to the database, along with the status 
+	 * gotten from Code SDK.
+	 */
 	public function save_purchase_ajax()
 	{
 		// Verify the nonce for security

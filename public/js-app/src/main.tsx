@@ -17,12 +17,9 @@ if (root) {
   )
 }
 
-const isLoaded = {
-  status: false
-};
-
 function initApp() {
   const root = document.getElementById('get-code-button-checkout')
+  if (!root) return
   render(
     <React.StrictMode>
       <App />
@@ -32,12 +29,9 @@ function initApp() {
 }
 
 // @ts-ignore
-document.querySelector('body').on('payment_method_selected', function () {
-  console.log('payment_method_selected was updated');
-  if (!isLoaded.status) {
-    initApp()
-    isLoaded.status = true
-  }
+jQuery('body').on('payment_method_selected', function () {
+  initApp()
 });
+
 
 

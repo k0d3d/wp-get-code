@@ -3,42 +3,9 @@
 import { useEffect, useRef } from 'react';
 import code from '@code-wallet/elements';
 import { handlePurchase, invokeIntent } from '../common/fetch';
+import { adjustHeight } from '../common/utils';
 
-if (process.env.NODE_ENV != "production") {
-  window['GetCodeAppVars'] = {
-    "nonce": "644744b619",
-    "user_id": "0",
-    "ajax_url": "https://localhost:8898/wp-admin/admin-ajax.php",
-    "post_id": "417",
-    "destination": "E8otxw1CVX9bfyddKu3ZB3BVLa4VVF9J7CTPdnUwT9jR",
-    "default_amount": "0.4"
-  };
-}
 
-function adjustHeight(contentHtml) {
-  const getCodeDiv = document.querySelector<HTMLElement>('.get_code-box');
-  const contentDiv = document.querySelector<HTMLElement>('.content');
-  const contentTitleDiv = document.querySelector<HTMLElement>('.content > .entry-title');
-
-  if (!getCodeDiv || !contentDiv) return
-
-  getCodeDiv.classList.add('slide-down-fade-out')
-
-  // Listen for the transitionend event
-  getCodeDiv.addEventListener('transitionend', function () {
-    if (contentDiv.classList.contains('injected-post')) return true
-    if (!contentTitleDiv) return
-    let nextSibling = contentTitleDiv.nextElementSibling;
-    while (nextSibling) {
-      // @ts-ignore
-      contentTitleDiv.parentNode.removeChild(nextSibling);
-      nextSibling = contentTitleDiv.nextElementSibling;
-    }
-    contentTitleDiv && contentTitleDiv.insertAdjacentHTML("afterend", contentHtml);
-    contentDiv.classList.add('injected-post')
-    // getCodeDiv.style.display = "none";
-  });
-}
 
 function CodeButton() {
   const el = useRef<HTMLDivElement>(null);
@@ -56,7 +23,7 @@ function CodeButton() {
 
     button.on('cancel', async (e) => {
       const content = await handlePurchase(e.intent)
-      if (content && content != '') {
+      if (content && content != '') {  // @todo: remove this
         adjustHeight(content)
       }
       return true

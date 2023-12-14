@@ -165,17 +165,24 @@ function add_get_code_gateway_class( $methods ) {
 
 add_action('woocommerce_checkout_process', 'process_get_code_payment');
 function process_get_code_payment(){
+    // Verify the nonce for security
+    check_ajax_referer(GET_CODE_NONCE, 'get_code_nonce');
 
-    if($_POST['payment_method'] != 'get_code')
+    if($_POST['payment_method'] != 'get_code') {
         return;
+    }
 
-    if( !isset($_POST['mobile']) || empty($_POST['mobile']) )
-        wc_add_notice( __( 'Please add your mobile number', $this->domain ), 'error' );
+    $data = array(
+        'tx_intent'    => !empty($_POST['tx_intent']) ? sanitize_text_field($_POST['tx_intent']) : null,
+    );
 
+    $result = verify_purchase_callback($data);
 
-    if( !isset($_POST['transaction']) || empty($_POST['transaction']) )
-        wc_add_notice( __( 'Please add your transaction ID', $this->domain ), 'error' );
+    if (empty($result)) {
+        wp_send_json_error(['order not found']);
+    }
 
+    return true;
 }
 
 /**
