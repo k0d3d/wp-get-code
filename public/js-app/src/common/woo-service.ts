@@ -25,8 +25,8 @@ class WooCommerce {
     if (!invalidInput) return true;
     else {
       scrollToElement(invalidInput);
-
-      throw new Error(__("Please complete the form"));
+      return false;
+      // throw new Error(__("Please complete the form"));
     }
   }
 

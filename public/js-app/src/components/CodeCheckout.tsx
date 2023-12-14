@@ -68,7 +68,7 @@ function CodeCheckout() {
       woo.disableCheckoutFormInputs();
 
       // Validating WC checkout form
-      woo.validateWCCheckoutForm();
+      if ( !woo.validateWCCheckoutForm() ) return false;
       const response = await invokeIntent({
         currency: 'usd',
         destination: window['GetCodeAppVars'].destination,

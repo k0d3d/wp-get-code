@@ -275,6 +275,14 @@ class Get_Code_Public
 		add_action('wp_ajax_get_code_complete_purchase', [$this, 'save_complete_ajax']);
 	}
 
+	/**
+	 * This function handles an ajax request.
+	 * It will return the whole post successfully 
+	 * When a user attempts to pay for a post it.
+	 * Using the intend id passed in the request, 
+	 * it checks the status using Code SDK. 
+	 * 
+	 */
 	public function save_complete_ajax()
 	{
 		global $wpdb;
@@ -328,7 +336,7 @@ class Get_Code_Public
 	public function save_purchase_ajax()
 	{
 		// Verify the nonce for security
-		check_ajax_referer(GET_CODE_NONCE, 'nonce');
+		check_ajax_referer(GET_CODE_NONCE, 'code_checkout_nonce');
 
 		// Validate and sanitize input data
 		$data = array(
