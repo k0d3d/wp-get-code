@@ -7,7 +7,7 @@ The Code WordPress Plugin is a library that empowers WordPress developers to eas
 
 ## Description
 
-Code is a mobile wallet app that leverages self-custodial blockchain technology to deliver a seamless payments experience that is instant, global, and private. With minimal setup and support for Gutenberg and Elementor, and classic editor (using a short code), you can start accepting payments effortlessly.
+[Code](https://getcode.com) is a mobile wallet app that leverages self-custodial blockchain technology to deliver a seamless payments experience that is instant, global, and private. With minimal setup and support for Gutenberg and Elementor, and classic editor (using a short code), you can start accepting payments effortlessly.
 
 **Features:**
 - WooCommerce checkout integration. Allow users to pay for products using Code Wallet.
