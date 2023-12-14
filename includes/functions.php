@@ -138,12 +138,12 @@ function verify_purchase_callback($data)
     "tx_intent" => $tx_intent
   ]);	
 
-  if ($status['status'] !== 'SUBMITTED') {
+  if ($status['status'] !== 'confirmed') {
     wp_send_json_error(['not submitted']);
   }
 
   // Check if a record with the given $tx_intent exists.
-  $result = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE tx_intent = %s AND tx_status='SUBMITTED'", $tx_intent));
+  $result = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE tx_intent = %s AND tx_status='confirmed'", $tx_intent));
 
   if (!$result) {
     // No record found, return an error
