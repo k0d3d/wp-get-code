@@ -35,8 +35,6 @@ Code is a mobile wallet app that leverages self-custodial blockchain technology 
 ![Screenshot 2](assets/screenshot-2.png)
 *Woocommerce checkout options*
 
-[Optional: Include screenshots demonstrating the plugin in action.]
-
 ## Changelog
 
 ### 1.0.0
