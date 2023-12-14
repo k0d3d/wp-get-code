@@ -14,7 +14,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Code Wallet
- * Plugin URI:        https://https://github.com/k0d3d/wp-get-code
+ * Plugin URI:        https://github.com/k0d3d/wp-get-code
  * Description:       Use Code Wallet with Wordpress
  * Version:           1.0.51
  * Author:            k0d3d
