@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { __ } from "@wordpress/i18n";
 import { isSuccessCode, scrollToElement } from "./utils";
 
 declare const window: any;
