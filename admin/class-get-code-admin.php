@@ -147,6 +147,17 @@ class Get_Code_Admin
 	public function init_elementor_widgets()
 	{
 
+		add_action('elementor/editor/before_enqueue_scripts', function () {
+
+			wp_enqueue_script(
+
+				'get-code-editor-stylesheet',
+
+				GET_CODE_APP_PATH . 'admin/css/editor.css'
+
+			);
+		});
+
 		function register_get_code_widget($widgets_manager)
 		{
 
@@ -189,11 +200,10 @@ class Get_Code_Admin
 		add_action('wp_ajax_get_code_save_custom_options', 'get_code_save_custom_options');
 	}
 
-	
+
 	public function init_gutenberg_addon()
 	{
 
 		require_once(__DIR__ . '/partials/gutenberg/index.php');
-
 	}
 }
