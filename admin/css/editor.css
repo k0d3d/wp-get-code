@@ -2,4 +2,7 @@
   background-image: url(../img/favicon-16x16.png);
   width: 20px;
   height: 20px;
+  display: block;
+  background-repeat: no-repeat;
+  margin: 0 auto;
  }
