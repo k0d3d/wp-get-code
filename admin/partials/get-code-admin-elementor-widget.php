@@ -20,7 +20,7 @@ class Get_Code_Elementor_Widget extends Widget_Base
 
     public function get_icon()
     {
-        return 'eicon-code';
+        return 'icon-code';
     }
 
     public function get_categories()
