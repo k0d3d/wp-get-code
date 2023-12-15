@@ -149,11 +149,11 @@ class Get_Code_Admin
 
 		add_action('elementor/editor/before_enqueue_scripts', function () {
 
-			wp_enqueue_script(
+			wp_enqueue_style(
 
 				'get-code-editor-stylesheet',
 
-				GET_CODE_APP_PATH . 'admin/css/editor.css'
+				GET_CODE_APP_URL . 'admin/css/editor.css'
 
 			);
 		});
