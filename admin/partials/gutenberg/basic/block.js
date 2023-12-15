@@ -16,6 +16,7 @@
 	};
 
 	blocks.registerBlockType( 'get-code/get-code-basic', {
+		icon: 'get-code',
 		edit: function() {
 			return el(
 				'p',
