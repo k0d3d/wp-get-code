@@ -26,7 +26,7 @@ Features:
 2. Upload the extracted folder to the `/wp-content/plugins/` directory
 or Use WordPress’ Add New Plugin feature, and upload the .zip file download.,
 3. Activate the plugin through the 'Plugins' menu in WordPress
-4. From the Wp Dashboard menu, select Get Code. 
+4. From the Wp Dashboard menu, select Code Wallet. 
 5. Enter your "Code Deposit Address" and "Amount you want to charge"
 - For WooCommerce 
 6. From WooCommerce->Settings->Payments select Code Checkout option.

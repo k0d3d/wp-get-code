@@ -15,8 +15,9 @@ The Code WordPress Plugin is a library that empowers WordPress developers to eas
 
 ## Installation
 
-1. Upload the entire `wp-get-code` directory to the `/wp-content/plugins/` directory.
+1. Upload the entire `wp-get-code` directory to the `/wp-content/plugins/` directory or Use WordPress’ Add New Plugin feature, upload the .zip file download.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
+3. From the Wp Dashboard menu, select Code Wallet. 
 
 ## Frequently Asked Questions
 
