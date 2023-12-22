@@ -41,6 +41,12 @@ or Use WordPress’ Add New Plugin feature, and upload the .zip file download.,
 
 == Changelog ==
 
+= 1.0.59 =
+* Fixed "Need to Login" message position.
+* Fixed Code PayWall Gutenberg icon.
+* Fixed checkout form submitting when use clicks proceed.
+* Fixed checkout error when using other payment gateway.
+
 = 1.0.51 =
 * First release.
 
