@@ -148,11 +148,10 @@ class Get_Code_Public
 
 		if (!is_user_logged_in()) {
 			$current_url = home_url(add_query_arg([], $GLOBALS['wp']->request));
-			echo '<div class="element-with-fade-out"></div>
+			return '<div class="element-with-fade-out"></div>
 				<div class="get_code_opt_default_paywall_message">
 					You need to <a href="' . esc_url(wp_login_url($current_url)) . '">login</a> to purchase with Code
 				</div>';
-			return;
 		}
 
 		if (!empty(get_option("get_code_opt_default_paywall_message"))) {
@@ -199,6 +198,7 @@ class Get_Code_Public
 				// $output .= apply_filters('the_content', $content);
 				return $content;
 			}
+			return "";
 		} else {
 			$output .= '<div class="get_code-box">';
 			// if user has not purchased product & is not admin
