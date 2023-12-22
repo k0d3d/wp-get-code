@@ -1,4 +1,5 @@
-.get-code-icon {
+.get-code-icon,
+.dashicons-get-code-icon {
   background-image: url(../img/favicon-16x16.png);
   width: 20px;
   height: 20px;

@@ -167,11 +167,12 @@ function add_get_code_gateway_class( $methods ) {
 add_action('woocommerce_checkout_process', 'process_get_code_payment');
 function process_get_code_payment(){
     // Verify the nonce for security
-    check_ajax_referer(GET_CODE_NONCE, 'code_checkout_nonce');
-
-    if($_POST['payment_method'] != 'get_code') {
+    if(!empty($_POST['payment_method']) && $_POST['payment_method'] != 'get_code') {
         return;
     }
+    
+    check_ajax_referer(GET_CODE_NONCE, 'code_checkout_nonce');
+
 
     $data = array(
         'tx_intent'    => !empty($_POST['tx_intent']) ? sanitize_text_field($_POST['tx_intent']) : null,
