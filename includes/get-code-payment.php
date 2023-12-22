@@ -123,7 +123,7 @@ function init_get_code_gateway_class(){
 
 ?>
             <div id="get-code-button-checkout">
-                <button id="init-code-checkout-app" style="width: 200px; height: 60px; background: black; border-radius: 5px; color: white;"  onclick="initCodeCheckoutApp">Proceed</button>
+                <span id="init-code-checkout-app" style="width: 200px; height: 60px; background: black; border-radius: 5px; color: white;"  onclick="initCodeCheckoutApp">Proceed</span>
             </div>
             <?php
         }

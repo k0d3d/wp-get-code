@@ -19,10 +19,16 @@ if (root) {
 }
 
 function initCodeCheckoutApp(e) {
-  e.preventDefault();
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
   const woo = new WooCommerce();
   // Validating WC checkout form
-  if ( !woo.validateWCCheckoutForm() ) return false;
+  console.log(woo.validateWCCheckoutForm())
+  if ( !woo.validateWCCheckoutForm() ) {
+    return false;
+  }
   const root = document.getElementById('get-code-button-checkout')
   if (!root) return
   document.getElementById('init-code-checkout-app')?.remove()
