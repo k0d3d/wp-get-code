@@ -37,6 +37,10 @@ The Code WordPress Plugin is a library that empowers WordPress developers to eas
 *Woocommerce checkout options*
 
 ## Changelog
+### 1.0.63 
+- Fixed "Proceed" button not working on Checkout.
+- Fixed crashes on activation when dependencies are not installed.
+- 
 ### 1.0.59 
 - Fixed "Need to Login" message position.
 - Fixed Code PayWall Gutenberg icon.
