@@ -4,29 +4,29 @@
  */
 
 
- .get_code_opt_default_paywall_message {
+.get_code_opt_default_paywall_message {
   width: 90%;
   max-width: 490px;
   margin: 0 auto;
- }
+}
 
- .get_code_default_message_container {
+.get_code_default_message_container {
   display: flex;
   justify-content: center;
   max-width: 24rem;
   flex-direction: column;
   margin: 0 auto;
   border-radius: 10px;
- 	box-shadow: 0 1px 8px 4px #44444424;
+  box-shadow: 0 1px 8px 4px #44444424;
   padding: 45px 0;
   align-items: center;
- }
+}
 
- .get_code_default_message_container  p {
- 	text-align: center;
+.get_code_default_message_container p {
+  text-align: center;
   width: 75%;
   margin: 0 auto;
- }
+}
 
 .get_code_opt_default_paywall_message .help-tip {
   line-height: 1.25rem;
@@ -37,8 +37,8 @@
 }
 
 #get-code-button-container {
-	  width: max-content;
-	  margin: 0 auto;
+  width: max-content;
+  margin: 0 auto;
 }
 
 .get_code-box {
@@ -53,24 +53,26 @@
 }
 
 .user-has-purchased {
-  overflow: hidden; /* Ensure content doesn't overflow during animation */
-  transition: height 0.5s ease; /* Adjust the duration and timing function as needed */
+  overflow: hidden;
+  /* Ensure content doesn't overflow during animation */
+  transition: height 0.5s ease;
+  /* Adjust the duration and timing function as needed */
 }
 
 .slide-down-fade-out {
   opacity: 0;
-  top: 60vh;;
+  top: 60vh;
   transition: top 1s ease-in, max-height 0.5s ease-in, opacity 0.8s ease-in;
 }
 
-#init-code-checkout-app{
+#init-code-checkout-app {
   width: 200px;
-    height: 60px;
-    background: black;
-    border-radius: 5px;
-    color: white;
-    display: block;
-    text-align: center;
-    padding-top: 20px;
-    cursor: pointer;
+  height: 60px;
+  background: black;
+  border-radius: 5px;
+  color: white;
+  display: block;
+  text-align: center;
+  padding-top: 20px;
+  cursor: pointer;
 }

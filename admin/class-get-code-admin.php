@@ -54,7 +54,9 @@ class Get_Code_Admin
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
-		$this->init_elementor_widgets();
+		if (is_plugin_active('elementor/elementor.php')) {
+			$this->init_elementor_widgets();
+		}
 		$this->init_gutenberg_addon();
 		$this->init_save_admin_options();
 	}
@@ -204,6 +206,11 @@ class Get_Code_Admin
 	public function init_gutenberg_addon()
 	{
 
-		require_once(__DIR__ . '/partials/gutenberg/index.php');
+		add_action('plugins_loaded', function () {
+			if (is_gutenberg_active()) {
+				require_once(__DIR__ . '/partials/gutenberg/index.php');
+			}
+		});
+
 	}
 }
