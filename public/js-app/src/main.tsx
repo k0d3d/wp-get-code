@@ -48,5 +48,10 @@ jQuery('body').on('payment_method_selected', function (e) {
   initCodeCheckoutApp(e)
 });
 
+// @ts-ignore
+jQuery('#init-code-checkout-app').on('click', function (e) {
+  initCodeCheckoutApp(e)
+});
+
 
 
