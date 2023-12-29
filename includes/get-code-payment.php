@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Provides a GetCode Payment Gateway, mainly for testing purposes.
  */
-add_action('plugins_loaded', 'init_get_code_gateway_class');
+add_action('woocommerce_loaded', 'init_get_code_gateway_class');
 
 function init_get_code_gateway_class(){
     class WC_Gateway_Get_Code_Payment extends WC_Payment_Gateway {
