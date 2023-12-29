@@ -123,9 +123,10 @@ function init_get_code_gateway_class(){
 
 ?>
             <div id="get-code-button-checkout">
+                <p>Complete the checkout form then click</p>
                 <span id="init-code-checkout-app" style="width: 200px; height: 60px; background: black; border-radius: 5px; color: white;"  onclick="initCodeCheckoutApp">Proceed</span>
             </div>
-            <?php
+<?php
         }
 
         /**
