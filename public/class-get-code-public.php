@@ -405,6 +405,8 @@ class Get_Code_Public
 					// Display the entire content
 					return $content;
 				}
+			} else {
+    		    return $content;
 			}
 		}
 
