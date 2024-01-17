@@ -53,7 +53,9 @@ class Get_Code_Admin
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
+		if (!function_exists('is_plugin_active')) {
+			include_once(ABSPATH . 'wp-admin/includes/plugin.php');
+		}
 		if (is_plugin_active('elementor/elementor.php')) {
 			$this->init_elementor_widgets();
 		}
@@ -211,6 +213,5 @@ class Get_Code_Admin
 				require_once(__DIR__ . '/partials/gutenberg/index.php');
 			}
 		});
-
 	}
 }
