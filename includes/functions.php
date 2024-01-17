@@ -11,9 +11,7 @@ define('GET_CODE_NONCE', 'get_code_nonce');
 define('GET_CODE_TABLE_NAME_USER_PURCHASES', 'get_code_user_purchases');
 
 
-if ( ! function_exists( 'is_plugin_active' ) ) {
-  include_once ABSPATH . 'wp-admin/includes/plugin.php';
-}
+
 
 // @todo: move to new file
 /**
@@ -199,6 +197,9 @@ function is_gutenberg_active() {
  * @return bool
  */
 function is_classic_editor_plugin_active() {
+  if ( ! function_exists( 'is_plugin_active' ) ) {
+      include_once ABSPATH . 'wp-admin/includes/plugin.php';
+  }
 
   if ( is_plugin_active( 'classic-editor/classic-editor.php' ) ) {
       return true;
