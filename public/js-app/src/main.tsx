@@ -31,7 +31,10 @@ function initCodeCheckoutApp(e) {
   }
   const root = document.getElementById('get-code-button-checkout')
   if (!root) return
-  document.getElementById('init-code-checkout-app')?.remove()
+  const btnEle = document.getElementById('init-code-checkout-app')
+  if (btnEle) {
+    btnEle.style.display = 'none'
+  } 
   
   render(
     <React.StrictMode>
