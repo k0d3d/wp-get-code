@@ -113,8 +113,8 @@ function has_user_purchased($post_id)
 * This will return a user purchase record 
 * which includes a post_id if the intent returns 
 * a SUBMITTED status else it returns false.
-* If It will return "not submitted" if no intent is 
-* not == submitted. It 
+* It will return "not submitted" if intent is 
+* not == confirmed. 
 */ 
 
 function verify_purchase_callback($data)

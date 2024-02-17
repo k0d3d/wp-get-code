@@ -279,9 +279,10 @@ class Get_Code_Public
 	/**
 	 * This function handles an ajax request.
 	 * It will return the whole post successfully 
-	 * When a user attempts to pay for a post it.
-	 * Using the intend id passed in the request, 
-	 * it checks the status using Code SDK. 
+	 * When a user attempts to pay for a post.
+	 * Using the intent id passed in the request, 
+	 * it checks the status of the transaction 
+	 * using Code SDK. 
 	 * 
 	 */
 	public function save_complete_ajax()
