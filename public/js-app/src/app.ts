@@ -1,4 +1,4 @@
-// import code from '@code-wallet/elements';
+import code from '@code-wallet/elements';
 import { handlePurchase, invokeIntent } from './common/fetch';
 import WooCommerce from './common/woo-service';
 
