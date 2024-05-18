@@ -180,7 +180,7 @@ class WooCommerce {
     const inputs = this.getPaymentMethodsInputs();
 
     if (inputs) {
-      for (const input of inputs) {
+      for (const input of Array.from(inputs)) {
         input.disabled = disabled;
       }
     }
