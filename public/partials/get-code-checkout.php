@@ -46,4 +46,7 @@
       clientSecret
     });
   })
+
+  button.mount('#button-container');
+
 </script>
