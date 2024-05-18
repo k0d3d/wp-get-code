@@ -37,7 +37,6 @@ const isDone = () => {
 
 
 async function main(amount, isPaywall = false) {
-  debugger
   const {
     button
     // @ts-ignore
