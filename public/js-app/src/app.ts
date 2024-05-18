@@ -79,3 +79,4 @@ async function main () {
 }
 
 
+window['main'] = main
