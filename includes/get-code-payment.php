@@ -98,7 +98,7 @@ function init_get_code_gateway_class(){
          */
         public function thankyou_page() {
             if ( $this->instructions )
-                echo wpautop( wptexturize( $this->instructions ) );
+                echo esc_html( wpautop( wptexturize( $this->instructions ) ) );
         }
 
         /**
@@ -111,14 +111,14 @@ function init_get_code_gateway_class(){
          */
         public function email_instructions( $order, $sent_to_admin, $plain_text = false ) {
             if ( $this->instructions && ! $sent_to_admin && 'get_code' === $order->payment_method && $order->has_status( 'on-hold' ) ) {
-                echo wpautop( wptexturize( $this->instructions ) ) . PHP_EOL;
+                echo esc_html(wpautop( wptexturize( $this->instructions ) ) ). PHP_EOL;
             }
         }
 
         public function payment_fields(){
 
             if ( $description = $this->get_description() ) {
-                echo wpautop( wptexturize( $description ) );
+                echo esc_html( wpautop( wptexturize( $description ) ) );
             }
             include GET_CODE_APP_PATH . 'public/partials/get-code-checkout.php';
 ?>
