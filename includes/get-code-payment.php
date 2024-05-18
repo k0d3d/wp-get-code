@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Get Code Payment Gateway.
+ * Code Wallet Payment Gateway.
  *
  * Provides a GetCode Payment Gateway, mainly for testing purposes.
  */
@@ -27,8 +27,8 @@ function init_get_code_gateway_class(){
             $this->id                 = 'get_code';
             $this->icon               = apply_filters('woocommerce_get_code_gateway_icon', '');
             $this->has_fields         = false;
-            $this->method_title       = __( 'GetCode Checkout', $this->domain );
-            $this->method_description = __( 'Allows payments with Get Code gateway.', $this->domain );
+            $this->method_title       = __( 'Code Wallet Checkout', $this->domain );
+            $this->method_description = __( 'Allows payments with Code Wallet gateway.', $this->domain );
 
             // Load the settings.
             $this->init_form_fields();
@@ -57,14 +57,14 @@ function init_get_code_gateway_class(){
                 'enabled' => array(
                     'title'   => __( 'Enable/Disable', $this->domain ),
                     'type'    => 'checkbox',
-                    'label'   => __( 'Enable Get Code Payment', $this->domain ),
+                    'label'   => __( 'Enable Code Wallet Payment', $this->domain ),
                     'default' => 'yes'
                 ),
                 'title' => array(
                     'title'       => __( 'Title', $this->domain ),
                     'type'        => 'text',
                     'description' => __( 'This controls the title which the user sees during checkout.', $this->domain ),
-                    'default'     => __( 'Get Code Payment', $this->domain ),
+                    'default'     => __( 'Code Wallet Payment', $this->domain ),
                     'desc_tip'    => true,
                 ),
                 'order_status' => array(
