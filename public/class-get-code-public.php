@@ -160,7 +160,7 @@ class Get_Code_Public
 			$custom_text = get_option("get_code_opt_default_paywall_message");
 			$custom_text = '<div class="element-with-fade-out"></div><div class="get_code_opt_default_paywall_message">' . $custom_text . '<div id="get-code-button-container" ' . $html_attr . ' >
 			'.
-			include_once(GET_CODE_APP_PATH . 'public/partials/get-code-public-display.php')
+			file_get_contents( GET_CODE_APP_PATH . 'public/partials/get-code-public-display.php' )
 			.'
 			</div></div>';
 		} else {
@@ -173,7 +173,7 @@ class Get_Code_Public
 					</p>
 					<div id="get-code-button-container" ' . $html_attr . ' >
 					'.
-					include_once(GET_CODE_APP_PATH . 'public/partials/get-code-public-display.php')
+					file_get_contents( GET_CODE_APP_PATH . 'public/partials/get-code-public-display.php' )
 					.'					
 					</div>
 					<p>
