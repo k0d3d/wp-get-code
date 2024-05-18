@@ -125,6 +125,23 @@ function init_get_code_gateway_class(){
             <div id="get-code-button-checkout">
                 <p>Complete the checkout form then click</p>
                 <span id="init-code-checkout-app" style="width: 200px; height: 60px; background: black; border-radius: 5px; color: white;"  onclick="initCodeCheckoutApp">Proceed</span>
+                <div id="button-container"></div>
+
+                <script type="module">
+                    import code from 'https://js.getcode.com/v1';
+
+                    const { button } = code.elements.create('button', {
+                        currency: 'usd',
+                        amount: 0.05, // The minimum amount is $0.05 USD or equivalent in other currencies
+                        destination: 'E8otxw1CVX9bfyddKu3ZB3BVLa4VVF9J7CTPdnUwT9jR',
+                    });
+
+                    button.on('success', () => {
+                        alert('Thank you!');
+                    });
+
+                    button.mount('#button-container');
+                </script>
             </div>
 <?php
         }
