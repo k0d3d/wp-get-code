@@ -107,6 +107,8 @@ class Get_Code_Public
 		 * class.
 		 */
 
+
+		 
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/get-code-public.js', array('jquery'), $this->version, true);
 		wp_enqueue_script($this->plugin_name . '-js-app', plugin_dir_url(__FILE__) . 'js/assets/index.js', array($this->plugin_name), $this->version, true);
 
@@ -156,7 +158,11 @@ class Get_Code_Public
 
 		if (!empty(get_option("get_code_opt_default_paywall_message"))) {
 			$custom_text = get_option("get_code_opt_default_paywall_message");
-			$custom_text = '<div class="element-with-fade-out"></div><div class="get_code_opt_default_paywall_message">' . $custom_text . '<div id="get-code-button-container" ' . $html_attr . ' ></div></div>';
+			$custom_text = '<div class="element-with-fade-out"></div><div class="get_code_opt_default_paywall_message">' . $custom_text . '<div id="get-code-button-container" ' . $html_attr . ' >
+			'.
+			include_once(GET_CODE_APP_PATH . 'public/partials/get-code-public-display.php')
+			.'
+			</div></div>';
 		} else {
 			$hidden_content_text = __('Purchase this item to view this hidden content', 'restricted-content-based-on-purchase');
 			$custom_text = '<div class="element-with-fade-out"></div><div class="get_code_opt_default_paywall_message">
@@ -165,7 +171,11 @@ class Get_Code_Public
 					Unlock the rest of this article
 					for $' . $amount . '
 					</p>
-					<div id="get-code-button-container" ' . $html_attr . ' ></div>
+					<div id="get-code-button-container" ' . $html_attr . ' >
+					'.
+					include_once(GET_CODE_APP_PATH . 'public/partials/get-code-public-display.php')
+					.'					
+					</div>
 					<p>
 						<span class="help-tip">Don’t have the Code Wallet app yet?
 							<a href="https://www.getcode.com/#Download" target="_blank">Download It Now</a> and get your first $1 free

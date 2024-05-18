@@ -16,7 +16,7 @@
  * Plugin Name:       Code Wallet
  * Plugin URI:        https://github.com/k0d3d/wp-get-code
  * Description:       Use Code Wallet with Wordpress
- * Version:           1.0.74
+ * Version:           1.0.75
  * Author:            k0d3d
  * Author URI:        https://getcode.com/
  * License:           GPL-2.0+
@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'GET_CODE_VERSION', '1.0.74' );
+define( 'GET_CODE_VERSION', '1.0.75' );
 
 define('GET_CODE_APP_PATH', plugin_dir_path(__FILE__));
 define('GET_CODE_APP_URL', plugin_dir_url(__FILE__));
