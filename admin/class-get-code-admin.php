@@ -126,8 +126,8 @@ class Get_Code_Admin
 	{
 
 		add_menu_page(
-			esc_html__('Get Code', 'get-code'),
-			esc_html__('Get Code', 'get-code'),
+			esc_html__('Code Wallet', 'get-code'),
+			esc_html__('Code Wallet', 'get-code'),
 			'manage_options',
 			$this->plugin_name,
 			array($this, 'add_setting_root_div'),
@@ -176,7 +176,7 @@ class Get_Code_Admin
 	}
 
 	/**
-	 * Handles saving the values for the Get Code
+	 * Handles saving the values for the Code Wallet
 	 * Admin setting screen. 
 	 */
 	public function init_save_admin_options()
